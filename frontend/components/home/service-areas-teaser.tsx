@@ -1,9 +1,8 @@
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowRight, ChevronRight } from "lucide-react"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { states, stateToSlug, cityToSlug, cities, getStateAbbreviation } from "@/lib/city-data"
-import { IMAGES } from "@/lib/media"
+import { getCanonicalCityPath } from "@/lib/canonical-map"
 
 export function ServiceAreasTeaser() {
   const entries = Object.entries(states)
@@ -11,10 +10,7 @@ export function ServiceAreasTeaser() {
 
   return (
     <section className="relative py-16 sm:py-14 border-t border-white/5 overflow-hidden" data-testid="service-areas-teaser">
-      <div className="absolute inset-0 -z-10 opacity-25">
-        <Image src={IMAGES.cityNetwork} alt="" fill sizes="100vw" className="object-cover" loading="lazy" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />
-      </div>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0a0a1e] via-black to-[#0a1a1a] opacity-80" />
 
       <div className="container relative">
         <ScrollReveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-10">
@@ -46,18 +42,21 @@ export function ServiceAreasTeaser() {
                   <span className="text-white/35 text-xs font-normal shrink-0">{stateCities.length} {stateCities.length === 1 ? "city" : "cities"}</span>
                 </Link>
                 <ul className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-                  {stateCities.slice(0, 8).map((city) => (
-                    <li key={city}>
-                      <Link
-                        href={`/city/${cityToSlug(city)}`}
-                        data-testid={`home-city-link-${cityToSlug(city)}`}
-                        className="flex items-center text-white/55 hover:text-white text-[13px] py-0.5 transition-colors"
-                      >
-                        <ChevronRight size={12} className="text-mc-purple mr-1 shrink-0" />
-                        {city}
-                      </Link>
-                    </li>
-                  ))}
+                  {stateCities.slice(0, 8).map((city) => {
+                    const slug = cityToSlug(city, state)
+                    return (
+                      <li key={city}>
+                        <Link
+                          href={getCanonicalCityPath(slug)}
+                          data-testid={`home-city-link-${slug}`}
+                          className="flex items-center text-white/55 hover:text-white text-[13px] py-0.5 transition-colors"
+                        >
+                          <ChevronRight size={12} className="text-mc-purple mr-1 shrink-0" />
+                          {city}
+                        </Link>
+                      </li>
+                    )
+                  })}
                   {stateCities.length > 8 && (
                     <li className="col-span-2">
                       <Link

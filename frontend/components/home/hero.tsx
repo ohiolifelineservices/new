@@ -18,7 +18,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0">
         <Image
           src={IMAGES.heroFamily}
-          alt="Family at home using Metronet fiber internet across multiple devices"
+          alt="Family relaxing at home with connected devices"
           fill
           priority
           sizes="100vw"
@@ -34,10 +34,6 @@ export function Hero() {
         <div className="max-w-2xl">
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <PromoBadge />
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur px-3.5 py-1.5 text-[11px] font-display font-semibold uppercase tracking-[0.14em] text-white/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-mc-green" />
-              Authorized Metronet Reseller
-            </span>
           </div>
 
           <h1 className="font-display font-extrabold text-white leading-[0.94] text-5xl sm:text-6xl lg:text-7xl">
@@ -50,8 +46,8 @@ export function Hero() {
             Symmetrical speeds up to <span className="text-mc-yellow font-semibold">{top.speed}</span> from{" "}
             <span className="text-mc-yellow font-semibold">{entry.priceLabel}/mo</span> with AutoPay —{" "}
             <span className="text-mc-yellow font-semibold">unlimited data</span>,{" "}
-            <span className="text-mc-yellow font-semibold">no contracts</span>, and your{" "}
-            <span className="text-mc-yellow font-semibold">first month free</span>.
+            <span className="text-mc-yellow font-semibold">no contracts</span>.{" "}
+            <span className="text-mc-yellow font-semibold">First month free</span> for eligible new customers.
           </p>
 
           <Link

@@ -8,11 +8,12 @@ import { SectionHeading } from "@/components/section-heading"
 import { PromoBadge } from "@/components/promo-badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import {
-  getAllCitySlugs, slugToCity, getStateForCity, getCitiesForState,
+  getAllCitySlugs, slugToCity, getStateForCity, getStateForSlug, getCitiesForState,
   cityToSlug, getStateAbbreviation, stateToSlug, PRIORITY_MARKET_SLUGS,
 } from "@/lib/city-data"
 import { cityIntro, cityAngle, cityAvailabilityNote, cityFaqs, citySecondaryContent } from "@/lib/city-content"
 import { breadcrumbSchema, faqSchema, localServiceSchema } from "@/lib/schema-data"
+import { getCanonicalCityPath } from "@/lib/canonical-map"
 import { PLANS } from "@/lib/commercial-data"
 import { ArrowRight, Check } from "lucide-react"
 
@@ -23,26 +24,27 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const city = slugToCity(slug)
-  const state = getStateForCity(city)
+  const state = getStateForSlug(slug) || getStateForCity(city)
   if (!state) return {}
   const abbr = getStateAbbreviation(state)
+  const canonical = getCanonicalCityPath(slug)
   return {
     title: `Metronet Fiber Internet in ${city}, ${abbr} — Plans, Pricing & Availability`,
     description: `Shop Metronet fiber internet in ${city}, ${abbr}. Compare 500 Mbps ($60/mo), 1 Gig ($70/mo), and 2 Gig ($80/mo) plans, check availability at your address, and order online through Metroconet.`,
-    alternates: { canonical: `https://metroconet.com/city/${slug}` },
+    alternates: { canonical: `https://metroconet.com${canonical}` },
   }
 }
 
 export default async function CityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const city = slugToCity(slug)
-  const state = getStateForCity(city)
+  const state = getStateForSlug(slug) || getStateForCity(city)
   if (!state) return notFound()
 
   const abbr = getStateAbbreviation(state)
   const siblingCities = getCitiesForState(state).filter((c) => c !== city)
   const nearby = siblingCities
-    .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c)))
+    .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c, state)))
     .concat(siblingCities)
     .filter((v, i, a) => a.indexOf(v) === i)
     .slice(0, 12)
@@ -58,7 +60,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([
         { name: "Home", url: "https://metroconet.com" },
         { name: state, url: `https://metroconet.com/metronet-state/${stateToSlug(state)}` },
-        { name: city, url: `https://metroconet.com/city/${slug}` },
+        { name: city, url: `https://metroconet.com${getCanonicalCityPath(slug)}` },
       ])) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(faqs)) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema(`${city}, ${abbr}`, "City")) }} />
@@ -131,9 +133,9 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               <h3>Ordering and installation in {city}</h3>
               <p>
                 Ordering happens entirely online. You pick your speed, enter your {city} service address, and choose a
-                preferred install date and time window; a confirmation follows by email. A technician brings the fiber
-                line to the home and installs the fiber gateway, which is included, so your Wi-Fi is running the same
-                day. Because there is no annual contract, you are not locked into a tier you might outgrow.
+                preferred install date and time window; a confirmation follows by email. A technician runs the fiber
+                line to the home and installs the fiber gateway, which is included with the service. Because there is
+                no annual contract, you can adjust your plan at any time.
               </p>
 
               <h3>Current offer for new {city} customers</h3>
@@ -200,11 +202,14 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               </p>
             </ScrollReveal>
             <div className="flex flex-wrap gap-2.5">
-              {nearby.map((c) => (
-                <Link key={c} href={`/city/${cityToSlug(c)}`} data-testid={`nearby-city-${cityToSlug(c)}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
-                  {c}
-                </Link>
-              ))}
+              {nearby.map((c) => {
+                const cSlug = cityToSlug(c, state)
+                return (
+                  <Link key={c} href={getCanonicalCityPath(cSlug)} data-testid={`nearby-city-${cSlug}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
+                    {c}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>

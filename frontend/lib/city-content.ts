@@ -20,8 +20,8 @@ export function cityIntro(city: string, state: string, abbr: string): string {
   return pick(city, 0, [
     `Metronet builds 100% fiber-optic internet to homes in ${city}, and Metroconet is where ${city} households compare those plans and place a new service order. Current speeds run from 500 Mbps to 2 Gig, every tier is symmetrical, and no plan carries a data cap or an annual contract.`,
     `If you are shopping for fiber internet in ${city}, ${abbr}, the practical question is which Metronet speed fits your household — and whether the line has reached your street. Metroconet handles both: compare all three plans below, then confirm serviceability at your exact address.`,
-    `${city} homes on Metronet's fiber network get the same symmetrical speeds available anywhere else in ${state}: 500 Mbps, 1 Gig, or 2 Gig, with upload speed matching download on every plan, unlimited data, and no long-term contract.`,
-    `Fiber internet in ${city} means something specific: a glass line to the home instead of shared copper coax, and an upload speed that matches your download. Metroconet is an independent authorized retailer for new Metronet service in ${city} and across ${state}.`,
+    `${city} homes on Metronet's fiber network get the same speed tiers available across ${state}: 500 Mbps, 1 Gig, or 2 Gig, with upload speeds designed to match download, unlimited data, and no long-term contract.`,
+    `Fiber internet in ${city} means something specific: a glass line to the home instead of shared copper coax, and upload speeds designed to match your download. Metroconet is an independent authorized retailer for new Metronet service in ${city} and across ${state}.`,
     `Looking for high-speed internet in ${city}? Metronet's fiber network delivers symmetrical speeds starting at 500 Mbps and going up to 2 Gig. Every plan comes with unlimited data and no annual contract, and Metroconet lets you compare all options and order online.`,
     `${city} residents have access to Metronet's fiber-to-the-home network, which means a dedicated fiber line rather than shared bandwidth. Metroconet is an authorized retailer where you can compare the 500 Mbps, 1 Gig, and 2 Gig plans and order new service entirely online.`,
     `Metronet serves ${city}, ${abbr} with true fiber-optic internet — not hybrid fiber-coax, not fixed wireless, but fiber all the way to the home. Metroconet is where ${city} households shop those plans, check address-level availability, and place a new order.`,
@@ -54,15 +54,15 @@ export function cityAngle(city: string): { heading: string; body: string } {
     },
     {
       heading: `How fiber handles peak evening hours in ${city}`,
-      body: `Between 7 and 10 PM, cable networks in ${city} share bandwidth across a neighborhood node. The more households streaming, the slower everyone's connection gets. Fiber runs a dedicated line to each home, so your speeds at 9 PM on a Friday are the same as 2 PM on a Tuesday. That consistency is fiber's real selling point.`,
+      body: `Between 7 and 10 PM, cable networks typically share bandwidth across a neighborhood node. The more households streaming, the more congestion can build. Fiber runs a dedicated line to each home, which means speeds are generally more consistent during peak hours than shared-infrastructure alternatives.`,
     },
     {
       heading: `Cloud storage and backup speeds in ${city}`,
-      body: `Backing up a phone full of photos over cable in ${city} can run overnight because the upload tops out at 10–35 Mbps. On a 1 Gig Metronet plan, that same upload runs at up to 1,000 Mbps. The gap matters for anything that leaves your network: cloud drives, Ring or Nest camera feeds, remote desktop sessions, and shared Google Drives for work.`,
+      body: `Backing up a phone full of photos over cable in ${city} can be slow because cable upload speeds typically top out at 10–35 Mbps. On a 1 Gig Metronet plan, upload speeds can reach up to 1,000 Mbps. The gap matters for anything that leaves your network: cloud drives, security camera feeds, remote desktop sessions, and shared files for work.`,
     },
     {
       heading: `Smart-home performance on fiber in ${city}`,
-      body: `A typical ${city} household now runs 15 to 25 connected devices — TVs, phones, laptops, thermostats, cameras, voice assistants. Most of these pull light bandwidth individually, but they all talk simultaneously. Fiber handles that many low-level connections without congestion because each home has its own dedicated line rather than sharing a cable node with dozens of neighbors.`,
+      body: `Many ${city} households now run a growing number of connected devices — TVs, phones, laptops, thermostats, cameras, voice assistants. Most of these pull light bandwidth individually, but they all communicate simultaneously. Fiber handles many concurrent low-level connections well because each home has its own dedicated line rather than sharing a cable node with neighboring homes.`,
     },
     {
       heading: `Video calls and screen sharing in ${city}`,
@@ -70,7 +70,7 @@ export function cityAngle(city: string): { heading: string; body: string } {
     },
     {
       heading: `Comparing fiber and cable internet in ${city}`,
-      body: `Cable providers in ${city} advertise download speeds that can look competitive on paper. The difference is architecture: cable runs a shared coaxial line from a neighborhood node, splitting bandwidth among connected homes. Fiber runs a dedicated strand of glass to each address. That means no shared congestion, symmetrical upload, and lower latency — especially during peak usage hours.`,
+      body: `Cable providers in ${city} advertise download speeds that can look competitive on paper. The difference is architecture: cable runs a shared coaxial line from a neighborhood node, splitting bandwidth among connected homes. Fiber runs a dedicated strand of glass to each address. That generally means less shared congestion, symmetrical upload capability, and lower latency — differences that tend to be most noticeable during peak usage hours.`,
     },
     {
       heading: `Choosing between 500 Mbps, 1 Gig, and 2 Gig in ${city}`,
@@ -78,11 +78,11 @@ export function cityAngle(city: string): { heading: string; body: string } {
     },
     {
       heading: `No data caps and no contracts in ${city}`,
-      body: `Every Metronet plan in ${city} includes unlimited data — no overage fees, no throttling after a threshold, and no soft caps that degrade performance. There is also no annual contract, so you are not locked into a speed tier or a promotional rate that jumps after 12 months. You pay the listed price as long as you keep the service.`,
+      body: `Every current Metronet residential plan in ${city} includes unlimited data — no overage fees and no soft caps that degrade performance. There is also no annual contract required, so you are not locked into a speed tier or a promotional rate. Standard monthly pricing applies as long as you keep the service.`,
     },
     {
       heading: `What the installation process looks like in ${city}`,
-      body: `After you pick a plan and confirm your ${city} address is serviceable, you choose a preferred install date and time window. A Metronet technician runs the fiber line to your home, installs the fiber gateway (included — no separate router purchase needed), and gets your Wi-Fi running the same day. The whole visit typically takes one to two hours.`,
+      body: `After you pick a plan and confirm your ${city} address is serviceable, you choose a preferred install date and time window. A Metronet technician runs the fiber line to your home, installs the fiber gateway (included with the service), and gets your Wi-Fi running. Because there is no annual contract, you can adjust your plan at any time.`,
     },
   ])
 }
@@ -106,7 +106,7 @@ export function citySecondaryContent(city: string, state: string): { heading: st
   return pick(city, 19, [
     {
       heading: `What "fiber to the home" actually means in ${city}`,
-      body: `Some providers in ${city} market "fiber" when the fiber only reaches a neighborhood cabinet and the last stretch to your home runs over copper coax. Metronet's network is fiber to the premises — a glass strand runs from the exchange all the way into your home. That is the architecture that makes symmetrical speeds possible and eliminates the shared-node congestion that slows cable during peak hours.`,
+      body: `Some providers in ${city} market "fiber" when the fiber only reaches a neighborhood cabinet and the last stretch to your home runs over copper coax. Metronet's network is fiber to the premises — a glass strand runs from the exchange to your home. That is the architecture that enables symmetrical speeds and reduces the shared-node congestion common with cable during peak hours.`,
     },
     {
       heading: `How ${city} households use 1 Gig differently than 500 Mbps`,
@@ -118,7 +118,7 @@ export function citySecondaryContent(city: string, state: string): { heading: st
     },
     {
       heading: `Metronet's unlimited data policy in ${city}`,
-      body: `Unlike some cable and satellite providers that impose monthly data caps (often 1 TB or 1.2 TB), every Metronet plan in ${city} comes with genuinely unlimited data. There are no overage charges, no soft throttling after a threshold, and no fine-print "fair use" clauses. If your household regularly uses 2+ TB per month from 4K streaming, cloud backups, and gaming downloads, this matters.`,
+      body: `Unlike some cable and satellite providers that impose monthly data caps (often 1 TB or 1.2 TB), every current Metronet residential plan in ${city} comes with unlimited data. There are no overage charges and no soft throttling after a threshold. If your household regularly uses 2+ TB per month from 4K streaming, cloud backups, and gaming downloads, this matters.`,
     },
     {
       heading: `Upload speed: the overlooked metric for ${city} internet shoppers`,
@@ -126,11 +126,11 @@ export function citySecondaryContent(city: string, state: string): { heading: st
     },
     {
       heading: `What to expect on install day in ${city}`,
-      body: `After placing your order, you pick a preferred install date and time window. A technician arrives, runs the fiber line to your home, installs the included fiber gateway, and tests the connection. The whole process typically takes one to two hours. Because the gateway includes Wi-Fi, you do not need to buy a separate router — though you can use your own if you prefer.`,
+      body: `After placing your order, you pick a preferred install date and time window. A technician arrives, runs the fiber line to your home, installs the included fiber gateway, and tests the connection. Because the gateway includes Wi-Fi, you do not need to buy a separate router — though you can use your own if you prefer.`,
     },
     {
       heading: `How Metronet pricing works in ${city}`,
-      body: `Metronet's pricing in ${city} is straightforward: $60/mo for 500 Mbps, $70/mo for 1 Gig, and $80/mo for 2 Gig, all with AutoPay. These are the standard rates — not introductory prices that jump after 12 months. The First Month Free promotion is available for eligible new customers, and eligibility is confirmed during the ordering process.`,
+      body: `Metronet's pricing in ${city} is straightforward: $60/mo for 500 Mbps, $70/mo for 1 Gig, and $80/mo for 2 Gig, all with AutoPay. The First Month Free promotion is available for eligible new customers, and eligibility is confirmed during the ordering process. No annual contract is required.`,
     },
     {
       heading: `Switching from cable to fiber in ${city}`,
@@ -186,7 +186,7 @@ export function cityFaqs(city: string, state: string, abbr: string) {
 
 export function stateIntroLong(state: string, marketCount: number, majorMarkets: string[]): string {
   const marketList = majorMarkets.slice(0, 5).join(", ")
-  return `Metronet operates a 100% fiber-optic network across ${marketCount} ${
+  return `Metronet operates a fiber-optic network across ${marketCount} ${
     marketCount === 1 ? "market" : "markets"
-  } in ${state}, including ${marketList}. Every ${state} address on the network gets the same product: symmetrical upload and download speeds at 500 Mbps, 1 Gig, or 2 Gig, unlimited data with no overage charges, and no annual contract requirement. Metroconet is an independent authorized retailer for new Metronet service, which means you can compare those plans and place a new ${state} service order online.`
+  } in ${state}, including ${marketList}. Residential plans are available at 500 Mbps, 1 Gig, or 2 Gig with unlimited data and no annual contract requirement. Metroconet is an independent authorized retailer for new Metronet service, which means you can compare those plans and place a new ${state} service order online.`
 }

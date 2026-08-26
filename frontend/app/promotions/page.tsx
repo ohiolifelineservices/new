@@ -68,17 +68,18 @@ export default function PromotionsPage() {
               <span className="absolute -top-3 left-9 bg-mc-yellow text-black text-[10px] font-display font-bold uppercase tracking-[0.16em] px-3 py-1.5 rounded-full">
                 New customers
               </span>
-              <p className="text-white/40 text-[11px] uppercase tracking-[0.18em] mb-3">Your first bill</p>
+              <p className="text-white/40 text-[11px] uppercase tracking-[0.18em] mb-3">Eligible new customers</p>
               <p className="font-display font-extrabold text-white leading-none">
                 <span className="text-7xl text-gradient-green">$0</span>
+                <span className="block text-white/50 text-sm font-medium mt-2">first month</span>
               </p>
               <p className="text-white/60 text-sm mt-4 leading-relaxed">
-                One month of Metronet fiber, free, for eligible new customers. Standard monthly pricing applies after
-                that — no rate that resets upward later.
+                First Month Free for eligible new customers ordering new Metronet service. Standard monthly pricing
+                applies after the promotional month. Eligibility is confirmed during the ordering process.
               </p>
               <div className="h-px bg-white/10 my-7" />
               <ul className="space-y-3">
-                {["Applies to 500 Mbps, 1 Gig & 2 Gig", "No promo code required", "No annual contract", "Unlimited data included"].map((item) => (
+                {["No annual contract required", "Unlimited data included", "Eligibility confirmed at checkout"].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm text-white/75">
                     <Check size={15} className="text-mc-green shrink-0" /> {item}
                   </li>
@@ -95,8 +96,8 @@ export default function PromotionsPage() {
             eyebrow="Offer coverage"
             accent="yellow"
             className="mb-12"
-            title="How First Month Free applies to every plan"
-            copy="The offer isn't limited to the entry-level tier — it applies across the current Metronet lineup available through Metroconet."
+            title="First Month Free with current Metronet plans"
+            copy="Eligible new customers can take advantage of the First Month Free offer. Eligibility and availability may vary by service address."
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6" data-testid="promotions-plan-summary-grid">
             {PLANS.map((plan, i) => (
@@ -131,7 +132,7 @@ export default function PromotionsPage() {
                 <strong>First Month Free for eligible new customers</strong> on new Metronet fiber service, on top of
                 pricing that already includes unlimited data and requires no annual contract. Standard monthly pricing
                 after the first month is the same $60, $70, or $80 with AutoPay you see on the{" "}
-                <Link href="/plans-pricing">plans and pricing page</Link> — not a rate that resets upward later.
+                <Link href="/plans-pricing">plans and pricing page</Link>.
               </p>
 
               <h3>Offer details</h3>

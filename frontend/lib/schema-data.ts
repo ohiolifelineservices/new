@@ -1,52 +1,9 @@
-// Accurate, minimal structured data. No fabricated reviews, ratings,
-// employees, founders, awards, or LocalBusiness addresses/geo coordinates.
+// Accurate structured data. Only verifiable facts; no fabricated
+// availability, ratings, reviews, employee counts, or office addresses.
 
-import { PLANS, SUPPORT_PHONE } from "./commercial-data"
+import { PLANS } from "./commercial-data"
 
-export function organizationSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Metroconet",
-    url: "https://metroconet.com",
-    description: "Metroconet is an independent authorized retailer for new Metronet fiber internet service.",
-    sameAs: [],
-  }
-}
-
-export function websiteSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Metroconet",
-    url: "https://metroconet.com",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://metroconet.com/check-availability?zip={zip}",
-      "query-input": "required name=zip",
-    },
-  }
-}
-
-export function productSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Metronet Fiber Internet",
-    brand: { "@type": "Brand", name: "Metronet" },
-    description: "100% fiber-optic residential internet service with symmetrical upload and download speeds.",
-    offers: PLANS.map((plan) => ({
-      "@type": "Offer",
-      name: `Metronet ${plan.name}`,
-      price: plan.price.toFixed(2),
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://metroconet.com/plans-pricing",
-    })),
-  }
-}
-
-export function breadcrumbSchema(items: Array<{ name: string; url: string }>) {
+export function breadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -59,33 +16,62 @@ export function breadcrumbSchema(items: Array<{ name: string; url: string }>) {
   }
 }
 
-export function faqSchema(faqs: Array<{ question: string; answer: string }>) {
+export function faqSchema(faqs: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: faqs.map((faq) => ({
       "@type": "Question",
-      name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
   }
 }
 
-export function localServiceSchema(areaName: string, areaType: "City" | "State") {
+export function localServiceSchema(areaServed: string, level: "City" | "State") {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "Fiber Internet Retail",
-    provider: { "@type": "Organization", name: "Metroconet" },
-    areaServed: { "@type": areaType, name: areaName },
-    brand: { "@type": "Brand", name: "Metronet" },
+    name: "Metronet Fiber Internet",
+    provider: {
+      "@type": "Organization",
+      name: "Metroconet",
+      url: "https://metroconet.com",
+      description: "Independent authorized retailer for new Metronet fiber internet service.",
+    },
+    serviceType: "Internet Service Provider",
+    areaServed: {
+      "@type": level === "City" ? "City" : "State",
+      name: areaServed,
+    },
+    offers: PLANS.map((plan) => ({
+      "@type": "Offer",
+      name: plan.name,
+      price: plan.price,
+      priceCurrency: "USD",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: plan.price,
+        priceCurrency: "USD",
+        unitText: "MONTH",
+        description: "Price with AutoPay",
+      },
+    })),
   }
 }
 
-export const SUPPORT_CONTACT_POINT = {
-  "@type": "ContactPoint",
-  telephone: SUPPORT_PHONE,
-  contactType: "customer service",
-  areaServed: "US",
-  availableLanguage: "English",
+export const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Metroconet",
+  url: "https://metroconet.com",
+  description: "Independent authorized retailer for new Metronet fiber internet service.",
+}
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Metroconet",
+  url: "https://metroconet.com",
+  description: "Independent authorized retailer for new Metronet fiber internet service.",
 }

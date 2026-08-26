@@ -1,16 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 import { states, stateToSlug } from "@/lib/city-data"
 import { SUPPORT_PHONE } from "@/lib/commercial-data"
 import { BRAND } from "@/lib/media"
-
-const SOCIALS = [
-  { href: "https://www.facebook.com/profile.php?id=100065153454961", label: "Facebook", Icon: Facebook },
-  { href: "https://twitter.com/metronetindy", label: "X", Icon: Twitter },
-  { href: "https://www.instagram.com/metronet_promos", label: "Instagram", Icon: Instagram },
-  { href: "https://www.linkedin.com/company/metronet", label: "LinkedIn", Icon: Linkedin },
-]
 
 export function Footer() {
   const stateNames = Object.keys(states)
@@ -28,21 +20,6 @@ export function Footer() {
               Metroconet is an independent authorized retailer for new Metronet service. We help you compare fiber
               internet plans, check availability, and start new Metronet service online.
             </p>
-            <div className="flex gap-3">
-              {SOCIALS.map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  data-testid={`footer-social-${label.toLowerCase()}`}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-mc-purple hover:bg-mc-purple/15 transition-colors"
-                >
-                  <Icon size={16} />
-                </a>
-              ))}
-            </div>
           </div>
 
           <div>

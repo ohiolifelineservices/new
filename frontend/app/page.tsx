@@ -13,7 +13,7 @@ import { HomeSeoContent } from "@/components/home/seo-content"
 import { HomeFAQ } from "@/components/home/faq-section"
 import { SectionHeading } from "@/components/section-heading"
 import { ScrollReveal } from "@/components/scroll-reveal"
-import { faqSchema, productSchema } from "@/lib/schema-data"
+import { faqSchema } from "@/lib/schema-data"
 import { HOME_FAQS } from "@/lib/home-faqs"
 
 export const metadata: Metadata = {
@@ -27,7 +27,6 @@ export default function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(HOME_FAQS.map((f) => ({ question: f.q, answer: f.a })))) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema()) }} />
 
       <Hero />
       <TrustBar />

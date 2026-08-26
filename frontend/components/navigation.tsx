@@ -39,7 +39,7 @@ export function Navigation() {
       )}
     >
       <div className="container flex items-center justify-between h-[74px] gap-6">
-        <Link href="/" className="flex items-center gap-3 shrink-0 group" data-testid="nav-logo">
+        <Link href="/" className="flex items-center shrink-0 group" data-testid="nav-logo">
           <Image
             src={BRAND.resellerLogo}
             alt="Metronet Authorized Reseller"
@@ -48,10 +48,6 @@ export function Navigation() {
             priority
             className="h-8 w-auto transition-transform duration-500 group-hover:scale-[1.04]"
           />
-          <span className="hidden xl:inline-block h-6 w-px bg-white/15" aria-hidden="true" />
-          <span className="hidden xl:inline-block font-display font-extrabold text-lg tracking-tight text-white">
-            Metro<span className="text-mc-purple">co</span>net
-          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-0.5">

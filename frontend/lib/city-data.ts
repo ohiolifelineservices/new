@@ -1,5 +1,5 @@
 // Real Metronet service-area geographic inventory used throughout the site.
-// This list drives /city/[slug] and /metronet-state/[slug] routes.
+// This list drives /city/[slug] and /metronet/[slug] routes.
 
 export const states = {
   Colorado: ["Colorado Springs"],
@@ -71,8 +71,6 @@ export const states = {
 export const cities = Object.values(states).flat()
 
 // Top-performing historical markets identified from Search Console evidence
-// (highest pre-collapse organic clicks/impressions). Used to prioritize
-// internal linking and market ordering — not a hard limit on indexable pages.
 export const PRIORITY_MARKET_SLUGS = [
   "bloomington", "lexington", "ames", "davenport", "fayetteville", "lafayette",
   "hickory", "bryan", "indianapolis", "waterloo", "tallahassee", "lansing",
@@ -81,7 +79,7 @@ export const PRIORITY_MARKET_SLUGS = [
   "colorado-springs", "mason-city", "sioux-city", "richmond", "greenwood",
   "bettendorf", "lakeville", "omaha", "fishers", "owatonna", "austin",
   "new-bern", "westfield", "troy", "urbandale", "raeford", "rochester",
-  "naperville", "iowa-city", "grand-rapids", "moline", "climax", "geneva",
+  "naperville", "iowa-city", "grand-rapids", "moline", "climax", "geneva-il",
   "sugar-grove", "altoona", "coralville", "batavia", "seymour", "huntington",
   "waconia", "noblesville", "franklin", "berea", "elgin", "st-charles",
   "findlay", "greenville", "lebanon", "versailles", "faribault", "vincennes",
@@ -92,27 +90,82 @@ export const PRIORITY_MARKET_SLUGS = [
   "north-aurora", "granger", "fairborn", "pleasant-hill", "sycamore",
 ]
 
-export function cityToSlug(city: string): string {
+// --- State abbreviations (must be defined before slug maps) ---
+
+const STATE_ABBREVIATIONS: Record<string, string> = {
+  Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA",
+  Colorado: "CO", Connecticut: "CT", Delaware: "DE", Florida: "FL", Georgia: "GA",
+  Hawaii: "HI", Idaho: "ID", Illinois: "IL", Indiana: "IN", Iowa: "IA",
+  Kansas: "KS", Kentucky: "KY", Louisiana: "LA", Maine: "ME", Maryland: "MD",
+  Massachusetts: "MA", Michigan: "MI", Minnesota: "MN", Mississippi: "MS",
+  Missouri: "MO", Montana: "MT", Nebraska: "NE", Nevada: "NV",
+  "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY",
+  "North Carolina": "NC", "North Dakota": "ND", Ohio: "OH", Oklahoma: "OK",
+  Oregon: "OR", Pennsylvania: "PA", "Rhode Island": "RI", "South Carolina": "SC",
+  "South Dakota": "SD", Tennessee: "TN", Texas: "TX", Utah: "UT", Vermont: "VT",
+  Virginia: "VA", Washington: "WA", "West Virginia": "WV", Wisconsin: "WI",
+  Wyoming: "WY", "District of Columbia": "DC",
+}
+
+export function getStateAbbreviation(state: string): string {
+  return STATE_ABBREVIATIONS[state] || state
+}
+
+// --- Slug resolution with collision handling ---
+
+const _SLUG_MAP = new Map<string, string>()
+const _REVERSE_SLUG_MAP = new Map<string, { city: string; state: string }>()
+
+;(function buildSlugMaps() {
+  const baseSlugs = new Map<string, Array<{ city: string; state: string }>>()
+  for (const [state, cs] of Object.entries(states)) {
+    for (const city of cs as readonly string[]) {
+      const base = city.toLowerCase().replace(/\s+/g, "-")
+      if (!baseSlugs.has(base)) baseSlugs.set(base, [])
+      baseSlugs.get(base)!.push({ city, state })
+    }
+  }
+  for (const [base, entries] of baseSlugs) {
+    if (entries.length === 1) {
+      const { city, state } = entries[0]
+      _SLUG_MAP.set(`${city}:${state}`, base)
+      _REVERSE_SLUG_MAP.set(base, { city, state })
+    } else {
+      for (const { city, state } of entries) {
+        const slug = `${base}-${getStateAbbreviation(state).toLowerCase()}`
+        _SLUG_MAP.set(`${city}:${state}`, slug)
+        _REVERSE_SLUG_MAP.set(slug, { city, state })
+      }
+    }
+  }
+})()
+
+/** Base slugs that map to multiple cities (for redirect handling) */
+export const COLLISION_BASE_SLUGS = ["hampton", "geneva", "le-roy"]
+
+export function cityToSlug(city: string, state?: string): string {
+  if (state) {
+    const key = `${city}:${state}`
+    if (_SLUG_MAP.has(key)) return _SLUG_MAP.get(key)!
+  }
+  for (const [key, slug] of _SLUG_MAP) {
+    if (key.startsWith(`${city}:`)) return slug
+  }
   return city.toLowerCase().replace(/\s+/g, "-")
 }
 
 export function slugToCity(slug: string): string {
-  for (const city of cities) {
-    if (cityToSlug(city) === slug) return city
-  }
+  const entry = _REVERSE_SLUG_MAP.get(slug)
+  if (entry) return entry.city
   return slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 }
 
 export function getAllCitySlugs(): string[] {
-  return cities.map(cityToSlug)
+  return Array.from(_REVERSE_SLUG_MAP.keys())
 }
 
 export function getAllCitiesWithStates(): Array<{ city: string; state: string }> {
-  const result: Array<{ city: string; state: string }> = []
-  Object.entries(states).forEach(([state, stateCities]) => {
-    stateCities.forEach((city) => result.push({ city, state }))
-  })
-  return result
+  return Array.from(_REVERSE_SLUG_MAP.values())
 }
 
 export function getStateForCity(cityName: string): string | undefined {
@@ -120,6 +173,12 @@ export function getStateForCity(cityName: string): string | undefined {
     if ((stateCities as readonly string[]).includes(cityName)) return state
   }
   return undefined
+}
+
+/** Get state for a specific slug (handles collision-disambiguated slugs) */
+export function getStateForSlug(slug: string): string | undefined {
+  const entry = _REVERSE_SLUG_MAP.get(slug)
+  return entry?.state
 }
 
 export function getCitiesForState(state: string): string[] {
@@ -141,29 +200,6 @@ export function getAllStateSlugs(): string[] {
   return Object.keys(states).map(stateToSlug)
 }
 
-const STATE_ABBREVIATIONS: Record<string, string> = {
-  Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA",
-  Colorado: "CO", Connecticut: "CT", Delaware: "DE", Florida: "FL", Georgia: "GA",
-  Hawaii: "HI", Idaho: "ID", Illinois: "IL", Indiana: "IN", Iowa: "IA",
-  Kansas: "KS", Kentucky: "KY", Louisiana: "LA", Maine: "ME", Maryland: "MD",
-  Massachusetts: "MA", Michigan: "MI", Minnesota: "MN", Mississippi: "MS",
-  Missouri: "MO", Montana: "MT", Nebraska: "NE", Nevada: "NV",
-  "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY",
-  "North Carolina": "NC", "North Dakota": "ND", Ohio: "OH", Oklahoma: "OK",
-  Oregon: "OR", Pennsylvania: "PA", "Rhode Island": "RI", "South Carolina": "SC",
-  "South Dakota": "SD", Tennessee: "TN", Texas: "TX", Utah: "UT", Vermont: "VT",
-  Virginia: "VA", Washington: "WA", "West Virginia": "WV", Wisconsin: "WI",
-  Wyoming: "WY", "District of Columbia": "DC",
-}
-
-export function getStateAbbreviation(state: string): string {
-  return STATE_ABBREVIATIONS[state] || state
-}
-
-/**
- * Honest, non-fabricated state hub content. No invented fiber-mile counts,
- * launch years, testimonials, reviews, or community-initiative claims.
- */
 export function getStateContent(stateName: string) {
   const cityList = getCitiesForState(stateName)
   return {
@@ -171,7 +207,7 @@ export function getStateContent(stateName: string) {
       cityList.length === 1 ? "market" : "markets"
     } across ${stateName}. Every plan runs on the same fiber-optic network with symmetrical upload and download speeds, no data caps, and no long-term contracts.`,
     majorMarkets: cityList
-      .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c)))
+      .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c, stateName)))
       .slice(0, 6)
       .concat(cityList.slice(0, 6))
       .filter((v, i, a) => a.indexOf(v) === i)

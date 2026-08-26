@@ -1,38 +1,43 @@
 import type { MetadataRoute } from "next"
 import { getAllCitySlugs, getAllStateSlugs } from "@/lib/city-data"
+import { getCanonicalCityPath } from "@/lib/canonical-map"
 
-const BASE_URL = "https://metroconet.com"
+const BASE = "https://metroconet.com"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
-
   const staticPages: MetadataRoute.Sitemap = [
-    { url: `${BASE_URL}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${BASE_URL}/plans-pricing`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${BASE_URL}/promotions`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${BASE_URL}/why-metronet`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/check-availability`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/metronet-state`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${BASE_URL}/support`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${BASE_URL}/contact-us`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${BASE_URL}/careers`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
-    { url: `${BASE_URL}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${BASE_URL}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+    { url: BASE, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${BASE}/plans-pricing`, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${BASE}/promotions`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE}/check-availability`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/why-metronet`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/metronet-state`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/support`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${BASE}/contact-us`, changeFrequency: "monthly", priority: 0.4 },
+    { url: `${BASE}/careers`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${BASE}/privacy-policy`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${BASE}/terms-and-conditions`, changeFrequency: "yearly", priority: 0.2 },
   ]
 
   const statePages: MetadataRoute.Sitemap = getAllStateSlugs().map((slug) => ({
-    url: `${BASE_URL}/metronet-state/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.65,
+    url: `${BASE}/metronet-state/${slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
   }))
 
-  const cityPages: MetadataRoute.Sitemap = getAllCitySlugs().map((slug) => ({
-    url: `${BASE_URL}/city/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }))
+  // Use the canonical URL family for each city (some are /metronet/, most are /city/)
+  const slugsSeen = new Set<string>()
+  const cityPages: MetadataRoute.Sitemap = getAllCitySlugs()
+    .filter((slug) => {
+      if (slugsSeen.has(slug)) return false
+      slugsSeen.add(slug)
+      return true
+    })
+    .map((slug) => ({
+      url: `${BASE}${getCanonicalCityPath(slug)}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }))
 
   return [...staticPages, ...statePages, ...cityPages]
 }

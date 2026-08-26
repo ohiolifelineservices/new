@@ -5,6 +5,7 @@ import { useState, useCallback, useRef, useEffect } from "react"
 import { Loader2, CalendarIcon } from "lucide-react"
 import Image from "next/image"
 import { BRAND } from "@/lib/media"
+import { PLANS, ORDER_ENDPOINT } from "@/lib/commercial-data"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format, addDays, parse, isValid, startOfDay } from "date-fns"
-import { ORDER_ENDPOINT, SUPPORT_PHONE } from "@/lib/commercial-data"
 import { trackEvent } from "@/components/google-analytics"
 
 interface OrderFormProps {
@@ -53,6 +53,15 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [installDate, setInstallDate] = useState<Date>()
   const [calendarOpen, setCalendarOpen] = useState(false)
+  // When opened from nav without a plan, let the user pick one (default: 1 Gig)
+  const defaultPlan = PLANS.find((p) => p.popular) || PLANS[1]
+  const [pickedPlanId, setPickedPlanId] = useState(defaultPlan.id)
+  const activePlan = selectedPlan
+    ? selectedPlan
+    : (() => {
+        const p = PLANS.find((pl) => pl.id === pickedPlanId) || defaultPlan
+        return { name: p.name, price: p.price }
+      })()
   const [formData, setFormData] = useState({
     firstName: "", lastName: "", serviceAddress: "", zipCode: "",
     phoneNumber: "", email: "", dateOfBirth: "", preferredInstallTime: "", promoCode: "",
@@ -63,8 +72,8 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
   useEffect(() => {
     if (!isOpen) return
     ipGeoPromiseRef.current = resolveIpGeoLocation()
-    trackEvent("order_form_open", { plan: selectedPlan?.name || "unspecified" })
-  }, [isOpen, selectedPlan])
+    trackEvent("order_form_open", { plan: activePlan.name })
+  }, [isOpen, activePlan])
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {}
@@ -93,7 +102,7 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
 
     const dataToSend: Record<string, string> = {
       timestamp: new Date().toISOString(),
-      order: selectedPlan ? `${selectedPlan.name} - $${selectedPlan.price}` : "No plan selected",
+      order: `${activePlan.name} - $${activePlan.price}`,
       firstName: String(formProps.firstName || ""),
       lastName: String(formProps.lastName || ""),
       serviceAddress: String(formProps.serviceAddress || ""),
@@ -125,7 +134,7 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
       })
 
       if (response.type === "opaque" || response.ok) {
-        trackEvent("order_submitted", { plan: selectedPlan?.name || "unspecified" })
+        trackEvent("order_submitted", { plan: activePlan.name })
         setConfirmationMessage("Thank you for your order. Your installation date/time will be confirmed via email.")
         form.reset()
         setInstallDate(undefined)
@@ -138,7 +147,7 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
       }
     } catch (error) {
       setConfirmationMessage(
-        `There was an error submitting your order. Please try again or contact customer support at ${SUPPORT_PHONE}.`,
+        "There was an error submitting your order. Please try again in a moment.",
       )
     } finally {
       setIsSubmitting(false)
@@ -162,11 +171,29 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
           <DialogTitle className="text-2xl sm:text-3xl font-display font-extrabold text-center text-white">
             {selectedPlan ? `Order ${selectedPlan.name}` : "Start Your Order"}
           </DialogTitle>
-          {selectedPlan && (
-            <p className="text-center text-mc-green font-display font-bold text-lg">${selectedPlan.price}/mo with AutoPay</p>
-          )}
+          <p className="text-center text-mc-green font-display font-bold text-lg">${activePlan.price}/mo with AutoPay</p>
           <p className="text-center text-white/40 text-xs pt-1">First Month Free for eligible new customers &bull; No annual contract</p>
         </DialogHeader>
+        {!selectedPlan && !confirmationMessage && (
+          <div className="flex gap-2 justify-center pb-2" data-testid="order-plan-selector">
+            {PLANS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                data-testid={`plan-option-${p.id}`}
+                onClick={() => setPickedPlanId(p.id)}
+                className={`flex-1 rounded-xl border px-3 py-2.5 text-center transition-all ${
+                  pickedPlanId === p.id
+                    ? "border-mc-purple bg-mc-purple/15 text-white"
+                    : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/20"
+                }`}
+              >
+                <span className="block font-display font-bold text-sm">{p.speed}</span>
+                <span className="block text-xs mt-0.5 text-mc-green font-semibold">${p.price}/mo</span>
+              </button>
+            ))}
+          </div>
+        )}
         {confirmationMessage ? (
           <div className="text-center py-6" data-testid="order-form-confirmation">
             <p className="text-white/90">{confirmationMessage}</p>

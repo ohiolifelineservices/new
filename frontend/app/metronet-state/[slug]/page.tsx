@@ -13,6 +13,7 @@ import {
 } from "@/lib/city-data"
 import { stateIntroLong } from "@/lib/city-content"
 import { breadcrumbSchema, localServiceSchema, faqSchema } from "@/lib/schema-data"
+import { getCanonicalCityPath } from "@/lib/canonical-map"
 import { PLANS } from "@/lib/commercial-data"
 import { ArrowRight, Check } from "lucide-react"
 
@@ -41,7 +42,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
   const content = getStateContent(state)
   const abbr = getStateAbbreviation(state)
   const priorityFirst = cities
-    .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c)))
+    .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c, state)))
     .concat(cities)
     .filter((v, i, a) => a.indexOf(v) === i)
 
@@ -50,7 +51,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
   const faqs = [
     { question: `Where is Metronet fiber available in ${state}?`, answer: `Metronet fiber is live in ${cities.length} ${state} ${cities.length === 1 ? "market" : "markets"}, including ${content.majorMarkets.slice(0, 4).join(", ")}. Coverage is built street by street, so confirm your exact address before ordering.` },
     { question: `How much does Metronet internet cost in ${state}?`, answer: `Pricing is consistent across ${state}: $60/mo for 500 Mbps, $70/mo for 1 Gig, and $80/mo for 2 Gig, all with AutoPay. First Month Free is available for eligible new customers.` },
-    { question: `Are Metronet speeds the same everywhere in ${state}?`, answer: `Yes. Every ${state} market on the Metronet network offers the same 500 Mbps, 1 Gig, and 2 Gig symmetrical fiber plans with unlimited data and no annual contract.` },
+    { question: `Are Metronet speeds the same everywhere in ${state}?`, answer: `Metronet offers 500 Mbps, 1 Gig, and 2 Gig fiber plans across ${state} markets. Plans include unlimited data and no annual contract. Availability and specific plan options may vary by address.` },
     { question: `Is there a data cap or contract in ${state}?`, answer: `No. All current Metronet residential plans include unlimited data with no overage charges, and no annual contract is required.` },
     { question: `How do I order Metronet service in ${state}?`, answer: `Find your city below or use the availability checker, choose a speed, and complete the order online. You'll pick a preferred install date and time window and receive an email confirmation.` },
   ]
@@ -104,7 +105,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
             accent="green"
             className="mb-12"
             title={`Metronet plans available across ${state}`}
-            copy="Pricing and terms are identical in every market — only the bandwidth changes."
+            copy="Standard residential plans and pricing across Metronet's service areas."
           />
           <PlanCards />
         </div>
@@ -125,7 +126,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {topMarkets.map((c, i) => (
               <ScrollReveal key={c} delay={i * 0.04}>
-                <Link href={`/city/${cityToSlug(c)}`} data-testid={`state-top-market-${cityToSlug(c)}`} className="group glass-card glass-card-hover rounded-2xl px-6 py-5 flex items-center justify-between">
+                <Link href={getCanonicalCityPath(cityToSlug(c, state))} data-testid={`state-top-market-${cityToSlug(c, state)}`} className="group glass-card glass-card-hover rounded-2xl px-6 py-5 flex items-center justify-between">
                   <span>
                     <span className="block text-white font-display font-bold text-sm">{c}, {abbr}</span>
                     <span className="block text-white/40 text-xs mt-0.5">Plans &amp; availability</span>
@@ -138,7 +139,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
 
           <div className="flex flex-wrap gap-2.5" data-testid="state-city-list">
             {priorityFirst.map((c) => (
-              <Link key={c} href={`/city/${cityToSlug(c)}`} data-testid={`state-city-link-${cityToSlug(c)}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
+              <Link key={c} href={getCanonicalCityPath(cityToSlug(c, state))} data-testid={`state-city-link-${cityToSlug(c, state)}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
                 {c}
               </Link>
             ))}

@@ -1,11 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import Image from "next/image"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { SectionHeading } from "@/components/section-heading"
-import { states, stateToSlug, getStateAbbreviation, cities, PRIORITY_MARKET_SLUGS, slugToCity } from "@/lib/city-data"
+import { states, stateToSlug, getStateAbbreviation, cities, PRIORITY_MARKET_SLUGS, cityToSlug, slugToCity } from "@/lib/city-data"
+import { getCanonicalCityPath } from "@/lib/canonical-map"
 import { breadcrumbSchema } from "@/lib/schema-data"
-import { IMAGES } from "@/lib/media"
 import { ArrowRight } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -23,10 +22,8 @@ export default function ServiceAreasIndexPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Service Areas", url: "https://metroconet.com/metronet-state" }])) }} />
 
       <section className="relative pt-14 pb-12 overflow-hidden" data-testid="service-areas-index">
-        <div className="absolute inset-0 -z-10 opacity-25">
-          <Image src={IMAGES.cityNetwork} alt="" fill sizes="100vw" priority className="object-cover" aria-hidden="true" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/90 to-black" />
-        </div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#1a0a3e] via-[#0d1b3e] to-[#0a2e2e] opacity-50" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/90 to-black" />
         <div className="container relative">
           <ScrollReveal className="max-w-3xl">
             <p className="text-mc-teal font-display font-bold text-xs uppercase tracking-[0.2em] mb-4">Coverage</p>
@@ -76,7 +73,7 @@ export default function ServiceAreasIndexPage() {
           />
           <div className="flex flex-wrap gap-2.5">
             {PRIORITY_MARKET_SLUGS.slice(0, 40).map((slug) => (
-              <Link key={slug} href={`/city/${slug}`} data-testid={`popular-market-${slug}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
+              <Link key={slug} href={getCanonicalCityPath(slug)} data-testid={`popular-market-${slug}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
                 {slugToCity(slug)}
               </Link>
             ))}
@@ -97,9 +94,9 @@ export default function ServiceAreasIndexPage() {
               address within it still needs verification.
             </p>
             <p>
-              Every market on the network offers the same product: 500 Mbps, 1 Gig, and 2 Gig plans with symmetrical
-              upload and download speeds, unlimited data, and no annual contract. Pricing does not change from city to
-              city — see <Link href="/plans-pricing">plans and pricing</Link> for the full comparison.
+              Markets on the network offer residential fiber plans at 500 Mbps, 1 Gig, and 2 Gig with
+              unlimited data and no annual contract. See <Link href="/plans-pricing">plans and pricing</Link> for the
+              full comparison.
             </p>
             <p>
               To confirm your own address, use the <Link href="/check-availability">availability checker</Link>. If your
