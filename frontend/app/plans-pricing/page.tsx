@@ -5,7 +5,7 @@ import { ScrollReveal } from "@/components/scroll-reveal"
 import { SectionHeading } from "@/components/section-heading"
 import { PromoBadge } from "@/components/promo-badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { faqSchema, breadcrumbSchema, productSchema } from "@/lib/schema-data"
+import { faqSchema, breadcrumbSchema } from "@/lib/schema-data"
 import { PLANS } from "@/lib/commercial-data"
 import { Wifi, Gamepad2, Video, Home, Cloud, Users, ArrowRight } from "lucide-react"
 
@@ -53,7 +53,6 @@ export default function PlansPricingPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(FAQS)) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema()) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Plans & Pricing", url: "https://metroconet.com/plans-pricing" }])) }} />
 
       <section className="relative pt-14 pb-10 overflow-hidden" data-testid="plans-pricing-hero">
