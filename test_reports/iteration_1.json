@@ -1,0 +1,29 @@
+{
+  "summary": "First testing pass on the Metroconet Next.js 15 rebuild (frontend-only app, no backend). Verified route health, homepage/hero visibility, order form modal end-to-end (open from Choose 1 Gig, all fields including DOB auto-format, calendar popover restricted 2-14 days out, install time select, submit -> Submitting... state confirms POST fires without errors), ZIP availability widget (46032 -> 'Fiber is available!' modal on both homepage and check-availability; 90210 -> 'Not yet available' waitlist modal with Name/Email/Phone/Address fields), navigation, mobile hamburger + sticky mobile CTA at 390x844, footer retailer disclosure + support phone (correctly ONLY in footer, not in header), 5 Gig/Home Phone absent from plans page, /sitemap.xml serves valid application/xml, /robots.txt served, /metronet/[slug] -> /city/[slug] 301, /5-gig -> /plans-pricing 301, all key routes 200 (/why-metronet, /promotions, /support, /check-availability, /metronet-state, /metronet-state/indiana, /metronet-state/kentucky, /city/indianapolis, /city/lexington, /city/omaha, /city/carmel, /city/ames, /contact-us, /careers, /privacy-policy, /terms-and-conditions). GA4 (G-07QK0ZSDWH) confirmed loading with dataLayer + gtag network calls. No PAGEERROR observed; only benign font-preload console warnings.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AvailabilityWidget waitlist modal", "issue": "On desktop at 1080px viewport height, the 'Join waitlist' submit button is partially clipped at the bottom of the modal (visible in screenshot). Modal content overflows fixed height without internal scroll. Consider max-h + overflow-y-auto on modal body or shorter vertical spacing.", "selector": "waitlist dialog submit button", "priority": "MEDIUM"},
+      {"component": "Mobile menu (data-testid=mobile-menu)", "issue": "Mobile nav menu does not close on Escape key press. Users must tap the X. Minor a11y/UX polish.", "selector": "[data-testid=mobile-menu]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix waitlist modal (availability-widget.tsx) so the Join Waitlist submit button is not clipped at common desktop heights — add max-h-[90vh] and overflow-y-auto on the modal content, or reduce field vertical spacing.",
+    "(Optional polish) Close the mobile nav Sheet on Escape key press."
+  ],
+  "critical_code_review_comments": [
+    "Next.js dev-mode webpack cache produced transient MODULE_NOT_FOUND 500s across dynamic routes (/city/[slug], /sitemap.xml) after multiple hot reloads during the test session. Cleared by `rm -rf .next` + supervisor restart. Not a source bug but flags an operational risk on the preview environment — recommend either using `next build && next start` for the preview supervisor entry, or documenting a periodic .next cache reset. Production build is unaffected.",
+    "GA4 gtag script emits third-party warnings only; no errors. OK.",
+    "Waitlist modal submit button clipping is a real UX regression (button visually cut off), should be prioritized before launch."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend by design)", "frontend": "~95%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "App is a pure Next.js 15 App Router frontend on port 3000 (supervisor 'frontend'). No FastAPI/Mongo — do NOT test /api/*. Serviceable test ZIPs: 46032, 40503, 50010, 60510. Non-serviceable: 90210. The `.next` dev cache can go stale and produce MODULE_NOT_FOUND 500s on dynamic routes; if you see that, `rm -rf /app/frontend/.next && sudo supervisorctl restart frontend` clears it. Order form submit POSTs no-cors to Google Apps Script (ORDER_ENDPOINT in lib/commercial-data.ts) so response is opaque — verify 'Submitting...' state appears and no console/page errors, that's the confirmation. Screenshots saved at /app/test_reports/*.png.",
+  "rca of the issue": "Waitlist modal clipping: modal is rendered with fixed centering in a dialog container but its inner content (Name/Email/Phone/Address + heading + description + CTA) exceeds available vertical space on shorter viewports without an internal scroll region. Fix: wrap modal body in a div with max-h-[calc(90vh-2rem)] overflow-y-auto, or add py- reductions. Located in /app/frontend/components/availability-widget.tsx (waitlist dialog JSX)."
+}

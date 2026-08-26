@@ -1,0 +1,198 @@
+{
+  "project_context": {
+    "name": "Metroconet",
+    "description": "High-converting authorized retailer for Metronet fiber internet. Dark theme, aggressive conversion funnel, premium tech/Awwwards-level design.",
+    "primary_goal": "Drive users to 'Order Now' and the pricing/plan selection funnel.",
+    "theme": "dark_mode_only",
+    "vibe": "Modern, fast, premium, technological, energetic, credible."
+  },
+  "colors": {
+    "primary": {
+      "black": {
+        "hex": "#000000",
+        "usage": "Primary canvas, global background. Never use gradients for the main background. Use for extreme contrast text on Yellow/Green badges."
+      },
+      "purple": {
+        "hex": "#964DFF",
+        "usage": "Dominant branded interactive accent. Use for focus rings, outline CTA borders, interactive links, 'neon' glowing tracing lines around spotlight pricing cards."
+      },
+      "green": {
+        "hex": "#00C800",
+        "usage": "Primary conversion color. Use for 'Order Now' buttons (with black text), pricing numbers, checkmarks, success states, and savings callouts."
+      },
+      "white": {
+        "hex": "#FFFFFF",
+        "usage": "Major text contrast. Primary headings, main body copy. Icons on dark backgrounds."
+      }
+    },
+    "secondary": {
+      "gray": {
+        "hex": "#6E6E70",
+        "usage": "Secondary copy, muted meta-text, subtle 1px structural borders on cards."
+      },
+      "navy": {
+        "hex": "#212145",
+        "usage": "Layered dark section backgrounds. Use for pricing card bases, input field backgrounds, and alternate section backgrounds on top of the black canvas."
+      },
+      "teal": {
+        "hex": "#00A89C",
+        "usage": "Selective secondary accent for secondary icons or subtle data visualizations."
+      },
+      "yellow": {
+        "hex": "#FFFF00",
+        "usage": "Promotional flags and limited-attention markers. Use sparingly for 'First Month Free' or 'Limited Time' badges (must use black text for contrast)."
+      }
+    },
+    "color_rules": {
+      "background_hierarchy": "Root bg is #000000. Elevated surfaces (cards, modals) are #212145 (Navy).",
+      "text_contrast": "Body text must be #FFFFFF. Muted text is #6E6E70. Any text on #00C800 (Green) or #FFFF00 (Yellow) must be #000000.",
+      "forbidden": "No transparent backgrounds for headers/dropdowns. No generic gray gradients."
+    }
+  },
+  "typography": {
+    "fonts": {
+      "display": {
+        "family": "Outfit, sans-serif",
+        "usage": "All Headings (H1-H6), pricing numbers, and large display numbers for chapters.",
+        "weights": ["300", "500", "800"]
+      },
+      "body": {
+        "family": "Manrope, sans-serif",
+        "usage": "Paragraphs, tooltips, buttons, form inputs, secondary UI elements.",
+        "weights": ["400", "600"]
+      },
+      "forbidden": ["Inter", "Roboto", "Space Grotesk"]
+    },
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-none text-[#FFFFFF]",
+      "h2": "text-4xl sm:text-5xl font-bold tracking-tight text-[#FFFFFF]",
+      "h3": "text-2xl sm:text-3xl font-semibold tracking-tight text-[#FFFFFF]",
+      "body": "text-base md:text-lg text-[#FFFFFF] leading-relaxed",
+      "body_muted": "text-sm md:text-base text-[#6E6E70] leading-relaxed",
+      "price_display": "text-6xl sm:text-7xl font-black tracking-tighter text-[#00C800]"
+    }
+  },
+  "spacing_and_layout": {
+    "grid_system": "Bento-style layout for feature sections. 12-column grid for standard wrappers.",
+    "section_padding": "py-24 md:py-32",
+    "container": "max-w-7xl mx-auto px-6 lg:px-8",
+    "card_padding": "p-8 md:p-10",
+    "border_radius": "rounded-2xl (16px) for cards, rounded-full for buttons and badges."
+  },
+  "components": {
+    "buttons": {
+      "primary_conversion": {
+        "classes": "bg-[#00C800] text-[#000000] font-bold rounded-full px-8 py-4 hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,200,0,0.3)] hover:shadow-[0_0_25px_rgba(0,200,0,0.5)] transform hover:-translate-y-1",
+        "usage": "'Order Now', 'Select Plan', 'Start Service'"
+      },
+      "secondary": {
+        "classes": "bg-transparent text-[#FFFFFF] font-semibold border-2 border-[#964DFF] rounded-full px-8 py-4 hover:bg-[#964DFF] hover:text-[#FFFFFF] transition-all",
+        "usage": "Secondary actions, View Plans, Learn More"
+      }
+    },
+    "cards": {
+      "pricing_default": {
+        "classes": "bg-[#212145] border border-[#6E6E70] rounded-2xl p-8 flex flex-col gap-6 transition-transform hover:-translate-y-2",
+        "usage": "500 Mbps and 2 Gig plans"
+      },
+      "pricing_highlight": {
+        "classes": "bg-[#212145] border-2 border-[#964DFF] rounded-2xl p-10 flex flex-col gap-6 relative shadow-[0_0_30px_rgba(150,77,255,0.2)] scale-105 z-10",
+        "usage": "1 Gig 'Most Popular' plan spotlight"
+      }
+    },
+    "badges": {
+      "promo": {
+        "classes": "bg-[#FFFF00] text-[#000000] font-bold text-xs uppercase tracking-[0.2em] px-3 py-1 rounded-full",
+        "usage": "First Month Free, Limited Time Offer"
+      },
+      "popular": {
+        "classes": "bg-[#964DFF] text-[#FFFFFF] font-bold text-xs uppercase tracking-[0.15em] px-3 py-1 rounded-full",
+        "usage": "Most Popular plan tag"
+      }
+    },
+    "inputs": {
+      "classes": "bg-[#212145] border border-[#6E6E70] text-[#FFFFFF] rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#964DFF] focus:border-transparent placeholder-[#6E6E70]"
+    },
+    "sticky_mobile_cta": {
+      "classes": "fixed bottom-0 left-0 w-full bg-[#212145]/90 backdrop-blur-xl border-t border-[#6E6E70] p-4 flex justify-between items-center z-50 md:hidden",
+      "usage": "Persistent mobile conversion control showing lowest price and Order Now button."
+    },
+    "numbered_chapter_blocks": {
+      "classes": "relative pl-16 md:pl-24 border-l border-[#6E6E70]",
+      "number_classes": "absolute left-[-24px] md:left-[-32px] top-0 text-5xl md:text-7xl font-black text-transparent bg-clip-text stroke-text-purple w-12 md:w-16 bg-[#000000] text-center",
+      "usage": "Why Metronet education page sections."
+    },
+    "editorial_marquee": {
+      "classes": "bg-[#964DFF] py-3 overflow-hidden flex",
+      "text_classes": "text-[#FFFFFF] font-bold text-lg uppercase tracking-[0.1em] whitespace-nowrap px-8",
+      "content": "NO DATA CAPS • SYMMETRICAL SPEEDS • NO CONTRACTS • 100% FIBER NETWORK •"
+    }
+  },
+  "motion": {
+    "lenis": {
+      "enabled": true,
+      "config": "{ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1, smoothTouch: false, touchMultiplier: 2, infinite: false }"
+    },
+    "hero_kinetic_reveal": {
+      "description": "Masked line-by-line text reveal on H1.",
+      "wrapper": "overflow-hidden",
+      "variants": {
+        "hidden": { "y": "100%", "opacity": 0 },
+        "visible": { "y": "0", "opacity": 1, "transition": { "duration": 0.8, "ease": [0.33, 1, 0.68, 1] } }
+      },
+      "staggerChildren": 0.1
+    },
+    "scroll_reveal": {
+      "description": "Framer motion whileInView fade-up for cards and chapters.",
+      "initial": { "y": 40, "opacity": 0 },
+      "whileInView": { "y": 0, "opacity": 1 },
+      "viewport": { "once": true, "margin": "-100px" },
+      "transition": { "duration": 0.6, "ease": "easeOut" }
+    }
+  },
+  "imagery": {
+    "direction": "Real product/photography imagery treated deliberately. Spotlight lighting, clipped/angled frames, dark-canvas compositing. Never use raw rectangles. Use CSS masks or angled border-radius (e.g., rounded-tl-[100px] rounded-br-[100px]) for imagery blocks.",
+    "categories": {
+      "gaming": [
+        "https://images.unsplash.com/photo-1786577341324-bb415d916948?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHxnYW1lciUyMG5lb24lMjBsaWdodGluZyUyMGRhcmslMjByb29tfGVufDB8fHx8MTc4NzY5OTI2OHww&ixlib=rb-4.1.0&q=85",
+        "https://images.pexels.com/photos/7862392/pexels-photo-7862392.jpeg"
+      ],
+      "smart_home_tech": [
+        "https://images.pexels.com/photos/18071864/pexels-photo-18071864.jpeg",
+        "https://images.unsplash.com/photo-1516044734145-07ca8eef8731?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxzbWFydCUyMGhvbWUlMjBmaWJlciUyMGludGVybmV0JTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3ODc2OTkyNjh8MA&ixlib=rb-4.1.0&q=85",
+        "https://images.pexels.com/photos/5408008/pexels-photo-5408008.jpeg"
+      ],
+      "family_streaming": [
+        "https://images.unsplash.com/photo-1665827491450-c6f329f2285c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBzdHJlYW1pbmclMjBtb3ZpZSUyMG5pZ2h0JTIwZGFyayUyMHJvb218ZW58MHx8fHwxNzg3Njk5MjY4fDA&ixlib=rb-4.1.0&q=85",
+        "https://images.pexels.com/photos/6336649/pexels-photo-6336649.jpeg"
+      ]
+    }
+  },
+  "accessibility": {
+    "testing": "All interactive and key informational elements MUST include a 'data-testid' attribute using kebab-case, role-based naming (e.g., data-testid='order-now-button', data-testid='pricing-card-1gig').",
+    "focus": "All focusable elements must have visible focus rings: focus:outline-none focus:ring-2 focus:ring-[#964DFF] focus:ring-offset-2 focus:ring-offset-[#000000]."
+  },
+  "instructions_to_main_agent": {
+    "1": "Use ONLY valid JSON. Use standard HTML/React/Tailwind semantics when generating the actual files.",
+    "2": "Avoid Shadcn's basic Card components for the hero and core marketing sections to retain absolute structural freedom; use primitive divs with Tailwind. Use Shadcn strictly for Forms, Dialogs, Selects.",
+    "3": "Always include `framer-motion` for page load and scroll animations. Build a kinetic H1 component in the hero.",
+    "4": "The Zip Code Availability checker must be secondary in the hero layout. Do not let it overshadow the primary 'View Plans' or 'Order Now' messaging.",
+    "5": "Do NOT use transparent navigation backgrounds when content scrolls beneath. The header must have `bg-[#212145]/90 backdrop-blur-md border-b border-[#6E6E70]`.",
+    "6": "Add `react-fast-marquee` to the dependencies to build the Editorial Marquee section.",
+    "7": "Do not skip creating the Sticky Mobile CTA for small viewports. It is mandatory for conversion."
+  },
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Make creative, distinctive frontends that surprise and delight.",
+    "Do NOT use dark colors as gradients. Stick to solid #000000 and #212145.",
+    "Don't make generic centered layouts. Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition (e.g., transition: all). Add transitions for specific properties.",
+    "You MUST NOT center align the app container. No .App { text-align: center; }.",
+    "Always use modern button styles (pill-shaped) with interaction animations & color relevant to the app style.",
+    "NEVER use AI assistant Emoji characters (🤖🧠💭) for icons. Use lucide-react.",
+    "Every interaction needs micro-animations - hover states, transitions. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, custom cursors, and loading animations separate good from extraordinary.",
+    "Use provided Image URLs. Missing categories = agent uses placeholder text which is FORBIDDEN."
+  ]
+}
