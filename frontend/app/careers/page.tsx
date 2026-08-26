@@ -14,7 +14,7 @@ export default function CareersPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Careers", url: "https://metroconet.com/careers" }])) }} />
 
-      <section className="relative pt-20 pb-24 overflow-hidden" data-testid="careers-page">
+      <section className="relative pt-14 pb-16 overflow-hidden" data-testid="careers-page">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-teal w-[440px] h-[440px] -top-44 right-0 opacity-45" aria-hidden="true" />
         <div className="container relative max-w-3xl">

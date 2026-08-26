@@ -9,7 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { breadcrumbSchema, faqSchema } from "@/lib/schema-data"
 import { states, stateToSlug, cities, getCitiesForState } from "@/lib/city-data"
 import { IMAGES } from "@/lib/media"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, MapPin } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Check Metronet Fiber Availability by Zip Code & Address",
@@ -35,29 +35,52 @@ export default function CheckAvailabilityPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(FAQS)) }} />
 
       <section className="relative pt-20 pb-20 overflow-hidden" data-testid="availability-hero">
-        <div className="absolute inset-0 -z-10 opacity-25">
-          <Image src={IMAGES.cityNetwork} alt="" fill sizes="100vw" priority className="object-cover" aria-hidden="true" />
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a3e] via-[#0d1b3e] to-[#0a2e2e] opacity-60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/90 to-black" />
         </div>
         <div className="bloom bloom-teal w-[520px] h-[520px] -top-40 right-0 opacity-50" aria-hidden="true" />
-        <div className="container relative max-w-3xl text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-display font-extrabold text-white leading-[1.04]">
-            Is <span className="text-gradient-purple">Metronet fiber</span> available at your address?
-          </h1>
-          <p className="text-white/65 text-base sm:text-lg mt-6 mb-10 leading-relaxed">
-            Enter your zip code to check coverage in your area. If fiber is available, you can move straight into plans
-            and ordering — and if it isn&apos;t live yet, you can join the waitlist.
-          </p>
-          <div className="max-w-xl mx-auto text-left">
-            <AvailabilityWidget />
+        <div className="container relative">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div className="max-w-xl">
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-display font-extrabold text-white leading-[1.04]">
+                Check <span className="text-gradient-purple">Metronet</span> Availability
+              </h1>
+              <p className="text-white/65 text-base sm:text-lg mt-6 mb-10 leading-relaxed">
+                Enter your zip code to check coverage in your area. If fiber is available, you can move straight into plans
+                and ordering — and if it isn&apos;t live yet, you can join the waitlist.
+              </p>
+              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-2xl border border-mc-purple/20 shadow-xl">
+                <h2 className="text-lg font-display font-semibold mb-4 flex items-center text-white">
+                  <MapPin className="mr-2 h-5 w-5 text-mc-purple" />
+                  Coverage Map
+                </h2>
+                <AvailabilityWidget />
+              </div>
+              <p className="text-white/35 text-xs mt-6">
+                Coverage is built street by street. Final serviceability is confirmed against your exact address during ordering.
+              </p>
+            </div>
+            <div className="hidden md:block">
+              <div className="relative">
+                <Image
+                  src={IMAGES.coverageMap}
+                  alt="Metronet Fiber Coverage Map"
+                  width={500}
+                  height={400}
+                  className="rounded-2xl shadow-2xl border border-mc-purple/20 bg-black/40 p-2"
+                  priority
+                />
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-br from-mc-purple to-mc-teal text-white px-5 py-3 rounded-xl shadow-lg">
+                  <p className="font-display font-bold text-sm">Expanding to new areas monthly</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-white/35 text-xs mt-6">
-            Coverage is built street by street. Final serviceability is confirmed against your exact address during ordering.
-          </p>
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="availability-plans-preview">
+      <section className="py-16 border-t border-white/5" data-testid="availability-plans-preview">
         <div className="container">
           <SectionHeading
             eyebrow="Already know it's available?"
@@ -71,7 +94,7 @@ export default function CheckAvailabilityPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="availability-states-section">
+      <section className="py-16 border-t border-white/5" data-testid="availability-states-section">
         <div className="container">
           <SectionHeading
             eyebrow="Browse by state"
@@ -100,7 +123,7 @@ export default function CheckAvailabilityPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="availability-content-section">
+      <section className="py-16 border-t border-white/5" data-testid="availability-content-section">
         <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-7">
             <ScrollReveal className="prose-mc">

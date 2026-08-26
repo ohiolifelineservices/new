@@ -11,7 +11,7 @@ import {
   getAllCitySlugs, slugToCity, getStateForCity, getCitiesForState,
   cityToSlug, getStateAbbreviation, stateToSlug, PRIORITY_MARKET_SLUGS,
 } from "@/lib/city-data"
-import { cityIntro, cityAngle, cityAvailabilityNote, cityFaqs } from "@/lib/city-content"
+import { cityIntro, cityAngle, cityAvailabilityNote, cityFaqs, citySecondaryContent } from "@/lib/city-content"
 import { breadcrumbSchema, faqSchema, localServiceSchema } from "@/lib/schema-data"
 import { PLANS } from "@/lib/commercial-data"
 import { ArrowRight, Check } from "lucide-react"
@@ -49,6 +49,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
 
   const intro = cityIntro(city, state, abbr)
   const angle = cityAngle(city)
+  const secondary = citySecondaryContent(city, state)
   const availabilityNote = cityAvailabilityNote(city)
   const faqs = cityFaqs(city, state, abbr)
 
@@ -62,7 +63,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(faqs)) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema(`${city}, ${abbr}`, "City")) }} />
 
-      <section className="relative pt-16 pb-14 overflow-hidden" data-testid="city-hero">
+      <section className="relative pt-12 pb-10 overflow-hidden" data-testid="city-hero">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-purple w-[520px] h-[520px] -top-52 -left-32 opacity-55" aria-hidden="true" />
         <div className="container relative">
@@ -94,7 +95,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="city-plans-section">
+      <section className="py-14 border-t border-white/5" data-testid="city-plans-section">
         <div className="container">
           <SectionHeading
             eyebrow={`${city} plans`}
@@ -107,7 +108,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="city-content-section">
+      <section className="py-14 border-t border-white/5" data-testid="city-content-section">
         <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-7">
             <ScrollReveal className="prose-mc">
@@ -142,6 +143,9 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                 <Link href="/promotions">current promotions</Link> or compare all three speeds on the{" "}
                 <Link href="/plans-pricing">plans and pricing page</Link>.
               </p>
+
+              <h3>{secondary.heading}</h3>
+              <p>{secondary.body}</p>
 
               <h3>Already a Metronet customer in {city}?</h3>
               <p>
@@ -186,7 +190,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       </section>
 
       {nearby.length > 0 && (
-        <section className="py-20 border-t border-white/5" data-testid="city-nearby-markets">
+        <section className="py-14 border-t border-white/5" data-testid="city-nearby-markets">
           <div className="container">
             <ScrollReveal className="mb-8">
               <h2 className="text-xl sm:text-2xl font-display font-extrabold text-white">Other Metronet markets in {state}</h2>
@@ -206,7 +210,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </section>
       )}
 
-      <section className="py-20 border-t border-white/5" data-testid="city-faq-section">
+      <section className="py-14 border-t border-white/5" data-testid="city-faq-section">
         <div className="container max-w-3xl">
           <ScrollReveal className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">Metronet in {city}: FAQs</h2>

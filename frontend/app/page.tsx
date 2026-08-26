@@ -32,13 +32,13 @@ export default function HomePage() {
       <Hero />
       <TrustBar />
 
-      <section className="relative py-24 sm:py-32 overflow-hidden" data-testid="home-plans-section">
+      <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="home-plans-section">
         <div className="bloom bloom-purple w-[520px] h-[520px] -top-40 left-1/2 -translate-x-1/2 opacity-60" aria-hidden="true" />
         <div className="container relative">
           <SectionHeading
             eyebrow="Plans & pricing"
             accent="green"
-            className="mb-16"
+            className="mb-12"
             title="Choose your fiber speed"
             copy="Every plan is 100% fiber with symmetrical upload and download, unlimited data, and no annual contract. 1 Gig is the mainstream pick for most households — and 2 Gig is only $10 more."
           />
@@ -59,7 +59,7 @@ export default function HomePage() {
       <HomeSeoContent />
       <HomeFAQ />
 
-      <section className="relative py-28 sm:py-36 border-t border-white/5 overflow-hidden" data-testid="home-final-cta">
+      <section className="relative py-20 sm:py-16 border-t border-white/5 overflow-hidden" data-testid="home-final-cta">
         <div className="bloom bloom-purple w-[700px] h-[700px] -bottom-96 left-1/2 -translate-x-1/2 opacity-80" aria-hidden="true" />
         <div className="container relative text-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-white leading-[1.02] max-w-3xl mx-auto mb-6">

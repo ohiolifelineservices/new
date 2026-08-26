@@ -4,6 +4,7 @@ import "./globals.css"
 import { SmoothScrollProvider } from "@/lib/smooth-scroll"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { Navigation } from "@/components/navigation"
+import { AvailabilityBar } from "@/components/availability-bar"
 import { Footer } from "@/components/footer"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { OrderFormProvider } from "@/components/order-form-context"
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <OrderFormProvider>
             <div className="grain-overlay" aria-hidden="true" />
             <Navigation />
+            <AvailabilityBar />
             <main className="min-h-screen pb-16 lg:pb-0">{children}</main>
             <Footer />
             <StickyMobileCTA />

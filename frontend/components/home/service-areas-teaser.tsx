@@ -1,52 +1,79 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ChevronRight } from "lucide-react"
 import { ScrollReveal } from "@/components/scroll-reveal"
-import { PRIORITY_MARKET_SLUGS, slugToCity, cities, states } from "@/lib/city-data"
+import { states, stateToSlug, cityToSlug, cities, getStateAbbreviation } from "@/lib/city-data"
 import { IMAGES } from "@/lib/media"
 
 export function ServiceAreasTeaser() {
-  const markets = PRIORITY_MARKET_SLUGS.slice(0, 24)
-  const stateCount = Object.keys(states).length
+  const entries = Object.entries(states)
+  const stateCount = entries.length
 
   return (
-    <section className="relative py-24 sm:py-32 border-t border-white/5 overflow-hidden" data-testid="service-areas-teaser">
-      <div className="absolute inset-0 -z-10 opacity-30">
+    <section className="relative py-16 sm:py-14 border-t border-white/5 overflow-hidden" data-testid="service-areas-teaser">
+      <div className="absolute inset-0 -z-10 opacity-25">
         <Image src={IMAGES.cityNetwork} alt="" fill sizes="100vw" className="object-cover" loading="lazy" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />
       </div>
 
       <div className="container relative">
-        <ScrollReveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+        <ScrollReveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-10">
           <div className="max-w-2xl">
-            <p className="text-mc-teal font-display font-bold text-xs uppercase tracking-[0.2em] mb-4">Where Metronet serves</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-display font-extrabold text-white leading-[1.08]">
-              Metronet fiber internet in {cities.length}+ markets across {stateCount} states
+            <p className="text-mc-teal font-display font-bold text-xs uppercase tracking-[0.2em] mb-3">Where Metronet serves</p>
+            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white leading-[1.08]">
+              Metronet fiber internet in {cities.length}+ cities across {stateCount} states
             </h2>
-            <p className="text-white/60 leading-relaxed mt-5">
-              Coverage is built street by street, so availability can differ between two addresses in the same town.
-              Pick your market below or check your exact address in seconds.
+            <p className="text-white/60 leading-relaxed mt-4">
+              Fiber is built street by street, so availability can differ between two addresses in the same town. Find
+              your city below.
             </p>
           </div>
           <Link href="/metronet-state" className="flex items-center gap-2 text-white/70 hover:text-white text-sm font-display font-semibold shrink-0" data-testid="service-areas-see-all">
-            Browse all service areas <ArrowRight size={16} />
+            All service areas <ArrowRight size={16} />
           </Link>
         </ScrollReveal>
 
-        <ScrollReveal>
-          <div className="flex flex-wrap gap-2.5" data-testid="service-areas-market-list">
-            {markets.map((slug) => (
-              <Link
-                key={slug}
-                href={`/city/${slug}`}
-                data-testid={`market-chip-${slug}`}
-                className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors"
-              >
-                {slugToCity(slug)}
-              </Link>
-            ))}
-          </div>
-        </ScrollReveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="service-areas-state-city-grid">
+          {entries.map(([state, stateCities], i) => (
+            <ScrollReveal key={state} delay={i * 0.03}>
+              <div className="glass-card rounded-[22px] p-6 h-full">
+                <Link
+                  href={`/metronet-state/${stateToSlug(state)}`}
+                  data-testid={`home-state-link-${stateToSlug(state)}`}
+                  className="flex items-baseline justify-between gap-2 text-white font-display font-bold text-base border-b border-white/10 pb-3 mb-3 hover:text-mc-purple transition-colors"
+                >
+                  <span>Metronet {state}</span>
+                  <span className="text-white/35 text-xs font-normal shrink-0">{stateCities.length} {stateCities.length === 1 ? "city" : "cities"}</span>
+                </Link>
+                <ul className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+                  {stateCities.slice(0, 8).map((city) => (
+                    <li key={city}>
+                      <Link
+                        href={`/city/${cityToSlug(city)}`}
+                        data-testid={`home-city-link-${cityToSlug(city)}`}
+                        className="flex items-center text-white/55 hover:text-white text-[13px] py-0.5 transition-colors"
+                      >
+                        <ChevronRight size={12} className="text-mc-purple mr-1 shrink-0" />
+                        {city}
+                      </Link>
+                    </li>
+                  ))}
+                  {stateCities.length > 8 && (
+                    <li className="col-span-2">
+                      <Link
+                        href={`/metronet-state/${stateToSlug(state)}`}
+                        className="flex items-center text-mc-purple hover:text-white text-[13px] font-medium py-0.5 transition-colors"
+                      >
+                        <ChevronRight size={12} className="mr-1 shrink-0" />
+                        All {stateCities.length} {getStateAbbreviation(state)} cities
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
     </section>
   )

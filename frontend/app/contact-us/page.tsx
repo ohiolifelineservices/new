@@ -18,7 +18,7 @@ export default function ContactUsPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Contact Us", url: "https://metroconet.com/contact-us" }])) }} />
 
-      <section className="relative pt-20 pb-16 overflow-hidden" data-testid="contact-us-page">
+      <section className="relative pt-14 pb-12 overflow-hidden" data-testid="contact-us-page">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-purple w-[480px] h-[480px] -top-48 -left-24 opacity-50" aria-hidden="true" />
         <div className="container relative max-w-4xl">
@@ -53,7 +53,7 @@ export default function ContactUsPage() {
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="contact-availability-section">
+      <section className="py-14 border-t border-white/5" data-testid="contact-availability-section">
         <div className="container max-w-2xl text-center">
           <ScrollReveal>
             <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white mb-4">Start with your zip code</h2>
@@ -67,7 +67,7 @@ export default function ContactUsPage() {
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5">
+      <section className="py-14 border-t border-white/5">
         <div className="container max-w-3xl">
           <ScrollReveal className="prose-mc">
             <h2 className="text-2xl font-display font-extrabold text-white mb-5">Important note about who does what</h2>

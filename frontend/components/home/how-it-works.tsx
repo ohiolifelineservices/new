@@ -22,7 +22,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="relative py-24 sm:py-32 border-t border-white/5 overflow-hidden" data-testid="how-it-works-section">
+    <section className="relative py-16 sm:py-14 border-t border-white/5 overflow-hidden" data-testid="how-it-works-section">
       <div className="bloom bloom-purple w-[460px] h-[460px] top-10 -right-40 opacity-50" aria-hidden="true" />
       <div className="container relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">

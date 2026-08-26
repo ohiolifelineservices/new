@@ -12,7 +12,7 @@ const USE_CASES = [
 
 export function LifestyleGrid() {
   return (
-    <section className="py-24 sm:py-32 border-t border-white/5" data-testid="lifestyle-grid-section">
+    <section className="py-16 sm:py-14 border-t border-white/5" data-testid="lifestyle-grid-section">
       <div className="container">
         <SectionHeading
           eyebrow="Built for how you live"

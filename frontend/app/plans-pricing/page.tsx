@@ -56,7 +56,7 @@ export default function PlansPricingPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema()) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Plans & Pricing", url: "https://metroconet.com/plans-pricing" }])) }} />
 
-      <section className="relative pt-20 pb-12 overflow-hidden" data-testid="plans-pricing-hero">
+      <section className="relative pt-14 pb-10 overflow-hidden" data-testid="plans-pricing-hero">
         <div className="absolute inset-0 tech-grid -z-10 opacity-70" aria-hidden="true" />
         <div className="bloom bloom-purple w-[560px] h-[560px] -top-52 -left-32 opacity-60" aria-hidden="true" />
         <div className="container relative">
@@ -71,13 +71,13 @@ export default function PlansPricingPage() {
         </div>
       </section>
 
-      <section className="pb-24 pt-6" data-testid="plans-pricing-cards-section">
+      <section className="pb-16 pt-4" data-testid="plans-pricing-cards-section">
         <div className="container">
           <PlanCards />
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="plans-spec-table-section">
+      <section className="py-16 border-t border-white/5" data-testid="plans-spec-table-section">
         <div className="container">
           <SectionHeading
             eyebrow="Side by side"
@@ -116,7 +116,7 @@ export default function PlansPricingPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="plans-fit-section">
+      <section className="py-16 border-t border-white/5" data-testid="plans-fit-section">
         <div className="container">
           <SectionHeading
             eyebrow="Which speed fits your home?"
@@ -141,7 +141,7 @@ export default function PlansPricingPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="plans-details-section">
+      <section className="py-16 border-t border-white/5" data-testid="plans-details-section">
         <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-7">
             <ScrollReveal className="prose-mc">

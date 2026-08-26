@@ -37,7 +37,7 @@ export default function PromotionsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Promotions", url: "https://metroconet.com/promotions" }])) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(FAQS)) }} />
 
-      <section className="relative pt-20 pb-24 overflow-hidden" data-testid="promotions-hero">
+      <section className="relative pt-14 pb-16 overflow-hidden" data-testid="promotions-hero">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom w-[560px] h-[560px] -top-56 left-1/4 opacity-45 bg-[rgba(255,255,0,0.14)]" aria-hidden="true" />
         <div className="container relative grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
@@ -89,7 +89,7 @@ export default function PromotionsPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="promotions-plans-section">
+      <section className="py-16 border-t border-white/5" data-testid="promotions-plans-section">
         <div className="container">
           <SectionHeading
             eyebrow="Offer coverage"
@@ -113,7 +113,7 @@ export default function PromotionsPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-white/5" data-testid="promotions-details-section">
+      <section className="py-16 border-t border-white/5" data-testid="promotions-details-section">
         <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-7">
             <ScrollReveal className="prose-mc">

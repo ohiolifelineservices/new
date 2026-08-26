@@ -22,7 +22,7 @@ export default function ServiceAreasIndexPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Service Areas", url: "https://metroconet.com/metronet-state" }])) }} />
 
-      <section className="relative pt-20 pb-16 overflow-hidden" data-testid="service-areas-index">
+      <section className="relative pt-14 pb-12 overflow-hidden" data-testid="service-areas-index">
         <div className="absolute inset-0 -z-10 opacity-25">
           <Image src={IMAGES.cityNetwork} alt="" fill sizes="100vw" priority className="object-cover" aria-hidden="true" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/90 to-black" />
@@ -65,7 +65,7 @@ export default function ServiceAreasIndexPage() {
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="service-areas-popular-markets">
+      <section className="py-14 border-t border-white/5" data-testid="service-areas-popular-markets">
         <div className="container">
           <SectionHeading
             eyebrow="Popular markets"
@@ -84,7 +84,7 @@ export default function ServiceAreasIndexPage() {
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="service-areas-content">
+      <section className="py-14 border-t border-white/5" data-testid="service-areas-content">
         <div className="container max-w-3xl">
           <ScrollReveal className="prose-mc">
             <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white leading-[1.15] mb-6">

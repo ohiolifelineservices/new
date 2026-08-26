@@ -15,7 +15,7 @@ const ROWS = [
 
 export function FiberComparison() {
   return (
-    <section className="relative py-24 sm:py-32 border-t border-white/5 overflow-hidden" data-testid="fiber-comparison-section">
+    <section className="relative py-16 sm:py-14 border-t border-white/5 overflow-hidden" data-testid="fiber-comparison-section">
       <div className="absolute inset-0 -z-10 opacity-[0.22]">
         <Image src={IMAGES.fiberAbstract} alt="" fill sizes="100vw" className="object-cover" loading="lazy" aria-hidden="true" />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />

@@ -30,7 +30,7 @@ export default function SupportPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([{ name: "Home", url: "https://metroconet.com" }, { name: "Support", url: "https://metroconet.com/support" }])) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(FAQS)) }} />
 
-      <section className="relative pt-20 pb-16 overflow-hidden" data-testid="support-page">
+      <section className="relative pt-14 pb-12 overflow-hidden" data-testid="support-page">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-purple w-[480px] h-[480px] -top-48 -left-24 opacity-50" aria-hidden="true" />
         <div className="container relative max-w-4xl">
@@ -76,7 +76,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="support-faq-section">
+      <section className="py-14 border-t border-white/5" data-testid="support-faq-section">
         <div className="container max-w-3xl">
           <ScrollReveal className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">Frequently asked questions</h2>

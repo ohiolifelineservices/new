@@ -7,7 +7,7 @@ export function HomeSeoContent() {
   const stateCount = Object.keys(states).length
 
   return (
-    <section className="py-24 sm:py-28 border-t border-white/5" data-testid="home-seo-content">
+    <section className="py-16 sm:py-14 border-t border-white/5" data-testid="home-seo-content">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-8">

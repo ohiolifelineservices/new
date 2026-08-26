@@ -65,7 +65,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema(state, "State")) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(faqs)) }} />
 
-      <section className="relative pt-16 pb-14 overflow-hidden" data-testid="state-hero">
+      <section className="relative pt-12 pb-10 overflow-hidden" data-testid="state-hero">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-teal w-[520px] h-[520px] -top-52 right-0 opacity-50" aria-hidden="true" />
         <div className="container relative">
@@ -97,7 +97,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="state-plans-section">
+      <section className="py-14 border-t border-white/5" data-testid="state-plans-section">
         <div className="container">
           <SectionHeading
             eyebrow={`${state} pricing`}
@@ -110,7 +110,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="state-markets-section">
+      <section className="py-14 border-t border-white/5" data-testid="state-markets-section">
         <div className="container">
           <ScrollReveal className="mb-10">
             <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">
@@ -146,7 +146,7 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
         </div>
       </section>
 
-      <section className="py-20 border-t border-white/5" data-testid="state-content-section">
+      <section className="py-14 border-t border-white/5" data-testid="state-content-section">
         <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-7">
             <ScrollReveal className="prose-mc">

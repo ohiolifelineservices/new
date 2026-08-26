@@ -4,7 +4,7 @@ import { HOME_FAQS as FAQS } from "@/lib/home-faqs"
 
 export function HomeFAQ() {
   return (
-    <section className="relative py-24 sm:py-32 border-t border-white/5 overflow-hidden" data-testid="home-faq-section">
+    <section className="relative py-16 sm:py-14 border-t border-white/5 overflow-hidden" data-testid="home-faq-section">
       <div className="bloom bloom-teal w-[420px] h-[420px] top-20 -left-40 opacity-40" aria-hidden="true" />
       <div className="container relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">

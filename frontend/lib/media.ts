@@ -13,6 +13,7 @@ export const IMAGES = {
   fiberAbstract: "/images/fiber-abstract.jpg",
   installTech: "/images/install-tech.jpg",
   cityNetwork: "/images/city-network.jpg",
+  coverageMap: "/images/coverage-map.png",
   familyOriginal: "/family-hero.png",
   remoteWork1: "https://images.pexels.com/photos/7864380/pexels-photo-7864380.jpeg?auto=compress&cs=tinysrgb&w=1200",
   remoteWork2: "https://images.pexels.com/photos/7864379/pexels-photo-7864379.jpeg?auto=compress&cs=tinysrgb&w=1200",

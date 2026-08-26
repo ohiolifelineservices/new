@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <section className="pt-16 pb-24" data-testid="terms-page">
+    <section className="pt-12 pb-16" data-testid="terms-page">
       <div className="container max-w-2xl">
         <h1 className="text-4xl font-display font-extrabold text-white mb-6">Terms &amp; Conditions</h1>
         <div className="text-white/60 space-y-4 text-sm leading-relaxed">

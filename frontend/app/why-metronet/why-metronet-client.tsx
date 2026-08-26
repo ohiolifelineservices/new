@@ -53,7 +53,7 @@ export default function WhyMetronetClient() {
 
   return (
     <>
-      <section className="relative pt-20 pb-16 overflow-hidden" data-testid="why-metronet-hero">
+      <section className="relative pt-14 pb-12 overflow-hidden" data-testid="why-metronet-hero">
         <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
         <div className="bloom bloom-purple w-[560px] h-[560px] -top-52 -left-32 opacity-55" aria-hidden="true" />
         <div className="container relative">
@@ -70,7 +70,7 @@ export default function WhyMetronetClient() {
 
       <div data-testid="why-metronet-chapters">
         {CHAPTERS.map((chapter, i) => (
-          <section key={chapter.n} className="py-16 sm:py-24 border-t border-white/5" data-testid={`chapter-${chapter.n}`}>
+          <section key={chapter.n} className="py-12 sm:py-16 border-t border-white/5" data-testid={`chapter-${chapter.n}`}>
             <div className="container">
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
                 <ScrollReveal>
@@ -90,7 +90,7 @@ export default function WhyMetronetClient() {
         ))}
       </div>
 
-      <section className="relative py-24 border-t border-white/5 text-center overflow-hidden" data-testid="why-metronet-cta">
+      <section className="relative py-16 border-t border-white/5 text-center overflow-hidden" data-testid="why-metronet-cta">
         <div className="bloom bloom-purple w-[600px] h-[600px] -bottom-80 left-1/2 -translate-x-1/2 opacity-70" aria-hidden="true" />
         <div className="container relative">
           <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white mb-8 max-w-2xl mx-auto leading-[1.05]">Ready to make the switch?</h2>
