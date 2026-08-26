@@ -1,0 +1,22 @@
+{
+  "summary": "Frontend-only regression pass on Metroconet Next.js 15 preview (https://metroconet-recovery.preview.emergentagent.com). All 16 target routes return 200 (404 route returns 404 as expected). Both legacy 301 redirects intact: /metronet/indianapolis -> /city/indianapolis, /5-gig -> /plans-pricing. Reseller logo (/metronet-reseller-logo.png, naturalWidth=458) renders in header, footer, order modal, and 404 page. Homepage hero: promo badge, h1, family hero image, Order Now, View Plans, 4 bullets, and ZIP widget all visible. ZIP tool works unchanged end-to-end: serviceable 46240 -> 'Fiber is available!' modal with availability-result-title + View Plans button; non-serviceable 90210 -> 'Not yet available' + waitlist form (Name/Email/Phone/Address/Submit) -> thank-you state appears after opaque no-cors POST (~13s). ZIP validation intact: empty -> 'Please enter a zip code.', 3-digit -> 'Please enter a valid 5-digit zip code.'. Order form works unchanged: opens from nav-order-now-button AND plan-card-order-button-1gig showing '1 Gig / $70/mo with AutoPay'; submitted end-to-end with valid data -> order-form-confirmation ('Thank you for your order...') appears in ~3s. Order validation blocks bad zip (3 digits) and bad phone (5 digits) with inline errors. City page /city/indianapolis: correct H1, breadcrumb to /metronet-state/indiana, all 7 FAQ items (city-faq-item-0..6) present and expandable, nearby /city/* chips render (Carmel, Fishers, Franklin, Greenwood, Noblesville, ...). State page /metronet-state/indiana: correct H1. Scroll-reveal regression: NO sections remained hidden (opacity<0.05) on /, /plans-pricing, /why-metronet, /city/indianapolis after full scroll. Mobile 390x844: waitlist submit button is fully in-viewport (bottom 658 / vh 844) — previous iteration_1 clipping bug is FIXED. Mobile menu opens with mobile-menu-toggle -> mobile-menu visible and mobile-nav-order-now-button visible. Zero horizontal overflow at 390px. No pageerrors or console errors captured across all flows.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Waitlist Apps Script POST is slow (~13s to resolve opaque response) — consider showing an optimistic thank-you immediately after clicking Submit (since it is fire-and-forget no-cors) to reduce perceived latency; current UX shows a disabled 'Submitting...' button for 10+ seconds which may cause users to bounce.",
+    "Order form install-date calendar: my Playwright query for button[name='day']:not([disabled]) returned 0 matches, yet order still submitted with confirmation — indicates the date field may not be required or the day-cell selector differs from standard react-day-picker. Not a bug but flag for future test authoring: expose data-testid on calendar day cells if calendar interaction becomes a critical test target."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend)", "frontend": "100%"},
+  "seed_data_creation": "Submitted 1 waitlist entry (TEST User / 90210) and 1 order entry (Test User / 1 Gig / 46240) to the live Google Apps Script endpoint via no-cors as instructed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Pure Next.js 15 App Router frontend on port 3000, no backend to test. Serviceable ZIPs: 46240, 40502, 46032, 50309. Non-serviceable: 90210. Waitlist thank-you takes ~13s (poll >=15s). Order confirmation ~3s. Both submit no-cors to ORDER_ENDPOINT (Google Apps Script) in lib/commercial-data.ts. Mobile waitlist modal is now scrollable — verified reachable at 390x844.",
+  "rca of the issue": "N/A — no regressions observed. Prior iteration_1 waitlist mobile clipping is resolved (submit button bottom=658 < viewport 844)."
+}

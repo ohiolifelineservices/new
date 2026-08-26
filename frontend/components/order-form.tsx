@@ -3,6 +3,8 @@
 import type React from "react"
 import { useState, useCallback, useRef, useEffect } from "react"
 import { Loader2, CalendarIcon } from "lucide-react"
+import Image from "next/image"
+import { BRAND } from "@/lib/media"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -153,15 +155,17 @@ export default function OrderForm({ isOpen, onClose, selectedPlan }: OrderFormPr
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         data-testid="order-form-modal"
-        className="sm:max-w-[600px] bg-mc-navy border-mc-gray/40 text-white max-h-[90vh] overflow-y-auto"
+        className="sm:max-w-[620px] bg-[#0b0b16] border-white/12 text-white max-h-[90vh] overflow-y-auto rounded-[26px]"
       >
         <DialogHeader>
+          <Image src={BRAND.resellerLogo} alt="Metronet Authorized Reseller" width={150} height={50} className="h-7 w-auto mx-auto mb-2" />
           <DialogTitle className="text-2xl sm:text-3xl font-display font-extrabold text-center text-white">
             {selectedPlan ? `Order ${selectedPlan.name}` : "Start Your Order"}
           </DialogTitle>
           {selectedPlan && (
             <p className="text-center text-mc-green font-display font-bold text-lg">${selectedPlan.price}/mo with AutoPay</p>
           )}
+          <p className="text-center text-white/40 text-xs pt-1">First Month Free for eligible new customers &bull; No annual contract</p>
         </DialogHeader>
         {confirmationMessage ? (
           <div className="text-center py-6" data-testid="order-form-confirmation">

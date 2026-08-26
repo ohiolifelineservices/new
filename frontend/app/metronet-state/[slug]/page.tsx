@@ -4,84 +4,141 @@ import { notFound } from "next/navigation"
 import { PlanCards } from "@/components/plan-cards"
 import { AvailabilityWidget } from "@/components/availability-widget"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import { SectionHeading } from "@/components/section-heading"
 import { PromoBadge } from "@/components/promo-badge"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import {
   getAllStateSlugs, slugToState, getCitiesForState, cityToSlug,
   getStateAbbreviation, getStateContent, PRIORITY_MARKET_SLUGS,
 } from "@/lib/city-data"
-import { breadcrumbSchema, localServiceSchema } from "@/lib/schema-data"
-import { ArrowRight } from "lucide-react"
+import { stateIntroLong } from "@/lib/city-content"
+import { breadcrumbSchema, localServiceSchema, faqSchema } from "@/lib/schema-data"
+import { PLANS } from "@/lib/commercial-data"
+import { ArrowRight, Check } from "lucide-react"
 
 export async function generateStaticParams() {
   return getAllStateSlugs().map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const state = slugToState(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const state = slugToState(slug)
   const cities = getCitiesForState(state)
   if (cities.length === 0) return {}
   return {
-    title: `Metronet Fiber Internet in ${state} | Service Areas & Plans`,
-    description: `Metronet fiber internet is available in ${cities.length} ${state} markets. Compare plans, pricing, and current promotions, and find your city.`,
-    alternates: { canonical: `https://metroconet.com/metronet-state/${params.slug}` },
+    title: `Metronet Fiber Internet in ${state} — Service Areas, Plans & Pricing`,
+    description: `Metronet fiber internet is available in ${cities.length} ${state} ${cities.length === 1 ? "market" : "markets"}. Compare 500 Mbps, 1 Gig, and 2 Gig pricing, check availability, and order online through Metroconet.`,
+    alternates: { canonical: `https://metroconet.com/metronet-state/${slug}` },
   }
 }
 
-export default function StatePage({ params }: { params: { slug: string } }) {
-  const state = slugToState(params.slug)
+export default async function StatePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const state = slugToState(slug)
   const cities = getCitiesForState(state)
   if (cities.length === 0) return notFound()
 
   const content = getStateContent(state)
+  const abbr = getStateAbbreviation(state)
   const priorityFirst = cities
     .filter((c) => PRIORITY_MARKET_SLUGS.includes(cityToSlug(c)))
     .concat(cities)
     .filter((v, i, a) => a.indexOf(v) === i)
+
+  const topMarkets = priorityFirst.slice(0, 8)
+
+  const faqs = [
+    { question: `Where is Metronet fiber available in ${state}?`, answer: `Metronet fiber is live in ${cities.length} ${state} ${cities.length === 1 ? "market" : "markets"}, including ${content.majorMarkets.slice(0, 4).join(", ")}. Coverage is built street by street, so confirm your exact address before ordering.` },
+    { question: `How much does Metronet internet cost in ${state}?`, answer: `Pricing is consistent across ${state}: $60/mo for 500 Mbps, $70/mo for 1 Gig, and $80/mo for 2 Gig, all with AutoPay. First Month Free is available for eligible new customers.` },
+    { question: `Are Metronet speeds the same everywhere in ${state}?`, answer: `Yes. Every ${state} market on the Metronet network offers the same 500 Mbps, 1 Gig, and 2 Gig symmetrical fiber plans with unlimited data and no annual contract.` },
+    { question: `Is there a data cap or contract in ${state}?`, answer: `No. All current Metronet residential plans include unlimited data with no overage charges, and no annual contract is required.` },
+    { question: `How do I order Metronet service in ${state}?`, answer: `Find your city below or use the availability checker, choose a speed, and complete the order online. You'll pick a preferred install date and time window and receive an email confirmation.` },
+  ]
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([
         { name: "Home", url: "https://metroconet.com" },
         { name: "Service Areas", url: "https://metroconet.com/metronet-state" },
-        { name: state, url: `https://metroconet.com/metronet-state/${params.slug}` },
+        { name: state, url: `https://metroconet.com/metronet-state/${slug}` },
       ])) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema(state, "State")) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(faqs)) }} />
 
-      <section className="pt-16 pb-10" data-testid="state-hero">
-        <div className="container">
-          <p className="text-white/40 text-sm mb-4">
-            <Link href="/metronet-state" className="hover:text-white">Service Areas</Link> / {state}
+      <section className="relative pt-16 pb-14 overflow-hidden" data-testid="state-hero">
+        <div className="absolute inset-0 tech-grid -z-10 opacity-60" aria-hidden="true" />
+        <div className="bloom bloom-teal w-[520px] h-[520px] -top-52 right-0 opacity-50" aria-hidden="true" />
+        <div className="container relative">
+          <p className="text-white/40 text-sm mb-5">
+            <Link href="/" className="hover:text-white">Home</Link>
+            {" / "}
+            <Link href="/metronet-state" className="hover:text-white">Service Areas</Link>
+            {" / "}
+            <span className="text-white/70">{state}</span>
           </p>
-          <PromoBadge className="mb-5" />
-          <h1 className="text-4xl sm:text-5xl font-display font-extrabold text-white max-w-2xl leading-[1.05]" data-testid="state-heading">
-            Metronet Fiber Internet in {state}
+          <PromoBadge className="mb-6" />
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-display font-extrabold text-white max-w-3xl leading-[1.04]" data-testid="state-heading">
+            Metronet Fiber Internet in <span className="text-gradient-purple">{state}</span>
           </h1>
-          <p className="text-white/60 text-lg max-w-2xl mt-5">{content.description}</p>
-          <div className="max-w-lg mt-8">
+          <p className="text-white/65 text-base sm:text-lg max-w-2xl mt-6 leading-relaxed">{content.description}</p>
+
+          <div className="flex flex-wrap gap-x-8 gap-y-3 mt-8 max-w-2xl">
+            {[`${cities.length} ${cities.length === 1 ? "market" : "markets"}`, "Symmetrical upload", "Unlimited data", "No annual contract"].map((b) => (
+              <span key={b} className="flex items-center gap-2 text-white/75 text-sm">
+                <Check size={14} className="text-mc-green" /> {b}
+              </span>
+            ))}
+          </div>
+
+          <div className="max-w-lg mt-10">
+            <p className="text-white/40 text-[11px] uppercase tracking-[0.18em] mb-3">Check your {abbr} address</p>
             <AvailabilityWidget />
           </div>
         </div>
       </section>
 
-      <section className="py-16 border-t border-white/5" data-testid="state-plans-section">
+      <section className="py-20 border-t border-white/5" data-testid="state-plans-section">
         <div className="container">
-          <ScrollReveal className="mb-10">
-            <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">Plans available across {state}</h2>
-          </ScrollReveal>
-          <PlanCards compact />
+          <SectionHeading
+            eyebrow={`${state} pricing`}
+            accent="green"
+            className="mb-12"
+            title={`Metronet plans available across ${state}`}
+            copy="Pricing and terms are identical in every market — only the bandwidth changes."
+          />
+          <PlanCards />
         </div>
       </section>
 
-      <section className="py-16 border-t border-white/5" data-testid="state-markets-section">
+      <section className="py-20 border-t border-white/5" data-testid="state-markets-section">
         <div className="container">
-          <ScrollReveal className="mb-8">
-            <h2 className="text-2xl font-display font-extrabold text-white">
+          <ScrollReveal className="mb-10">
+            <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">
               {state} service areas <span className="text-white/40 text-base font-normal">({cities.length} {cities.length === 1 ? "market" : "markets"})</span>
             </h2>
+            <p className="text-white/50 text-sm mt-3 max-w-2xl">
+              Open your city for local plans, pricing, and availability details. Coverage is built street by street, so
+              confirm your exact address before ordering.
+            </p>
           </ScrollReveal>
-          <div className="flex flex-wrap gap-3" data-testid="state-city-list">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {topMarkets.map((c, i) => (
+              <ScrollReveal key={c} delay={i * 0.04}>
+                <Link href={`/city/${cityToSlug(c)}`} data-testid={`state-top-market-${cityToSlug(c)}`} className="group glass-card glass-card-hover rounded-2xl px-6 py-5 flex items-center justify-between">
+                  <span>
+                    <span className="block text-white font-display font-bold text-sm">{c}, {abbr}</span>
+                    <span className="block text-white/40 text-xs mt-0.5">Plans &amp; availability</span>
+                  </span>
+                  <ArrowRight size={16} className="text-white/30 group-hover:text-mc-purple group-hover:translate-x-1 transition-all" />
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2.5" data-testid="state-city-list">
             {priorityFirst.map((c) => (
-              <Link key={c} href={`/city/${cityToSlug(c)}`} data-testid={`state-city-link-${cityToSlug(c)}`} className="px-5 py-2.5 rounded-full border border-white/10 text-white/70 text-sm hover:border-mc-purple hover:text-white transition-colors">
+              <Link key={c} href={`/city/${cityToSlug(c)}`} data-testid={`state-city-link-${cityToSlug(c)}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-white/70 text-sm hover:border-mc-purple hover:bg-mc-purple/10 hover:text-white transition-colors">
                 {c}
               </Link>
             ))}
@@ -89,11 +146,59 @@ export default function StatePage({ params }: { params: { slug: string } }) {
         </div>
       </section>
 
-      <section className="py-16 border-t border-white/5 text-center" data-testid="state-cta">
-        <div className="container">
-          <Link href="/plans-pricing" className="inline-flex items-center gap-2 bg-mc-purple text-white font-display font-bold px-8 py-4 rounded-full hover:bg-mc-teal transition-colors" data-testid="state-bottom-cta">
-            View Plans &amp; Order Now <ArrowRight size={16} />
-          </Link>
+      <section className="py-20 border-t border-white/5" data-testid="state-content-section">
+        <div className="container grid grid-cols-1 lg:grid-cols-12 gap-14">
+          <div className="lg:col-span-7">
+            <ScrollReveal className="prose-mc">
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white leading-[1.15] mb-6">
+                Shopping for fiber internet in {state}
+              </h2>
+              <p>{stateIntroLong(state, cities.length, content.majorMarkets)}</p>
+
+              <h3>What you get on every {state} plan</h3>
+              <ul>
+                {PLANS.map((p) => (
+                  <li key={p.id}><strong>{p.speed} — {p.priceLabel}/mo with AutoPay.</strong> {p.bestFor}.</li>
+                ))}
+                <li>Symmetrical upload and download on all three tiers</li>
+                <li>Unlimited data with no overage charges</li>
+                <li>No annual contract requirement</li>
+                <li>Fiber gateway/router included with installation</li>
+              </ul>
+
+              <h3>Availability varies by street, not just by city</h3>
+              <p>
+                Fiber requires a physical line to each home, so Metronet builds out block by block within a market. Two
+                addresses in the same {state} neighborhood can have different answers today. Use the{" "}
+                <Link href="/check-availability">availability checker</Link> to confirm your area, and your exact street
+                address is verified during ordering. If your block isn&apos;t live yet, the waitlist records your area.
+              </p>
+
+              <h3>Ordering new Metronet service in {state}</h3>
+              <p>
+                Metroconet is an independent authorized retailer for new Metronet service. You compare speeds, place the
+                order online, and choose a preferred install date and time window — no store visit and no phone queue.
+                Existing Metronet customers who need billing or technical support should contact official Metronet
+                Customer Care, listed on our <Link href="/support">support page</Link>.
+              </p>
+            </ScrollReveal>
+          </div>
+          <div className="lg:col-span-5">
+            <ScrollReveal delay={0.08}>
+              <h2 className="text-2xl font-display font-extrabold text-white mb-5">{state} FAQs</h2>
+              <Accordion type="single" collapsible data-testid="state-faq-accordion">
+                {faqs.map((faq, i) => (
+                  <AccordionItem key={i} value={`item-${i}`} className="border-white/10" data-testid={`state-faq-item-${i}`}>
+                    <AccordionTrigger className="text-left text-white font-display font-semibold hover:text-mc-purple text-sm py-4">{faq.question}</AccordionTrigger>
+                    <AccordionContent className="text-white/60 leading-relaxed">{faq.answer}</AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+              <Link href="/plans-pricing" className="btn-shine inline-flex items-center gap-2 bg-mc-purple text-white font-display font-bold px-8 py-4 rounded-full mt-9 hover:bg-mc-green hover:text-black transition-colors" data-testid="state-bottom-cta">
+                View Plans &amp; Order Now <ArrowRight size={16} />
+              </Link>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
     </>

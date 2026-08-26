@@ -20,6 +20,7 @@ node_modules/
 /coverage
 
 # Next.js
+.next/
 /.next/
 /out/
 next-env.d.ts
@@ -81,3 +82,4 @@ memory/test_credentials.md
 # Mobile development
 android-sdk/frontend/node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
 frontend/node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
+frontend/node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node

@@ -57,11 +57,11 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
   return (
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-      style={{ backgroundColor: "rgba(0,0,0,0.8)" }}
+      style={{ backgroundColor: "rgba(0,0,0,0.82)", backdropFilter: "blur(6px)" }}
       onClick={onClose}
     >
       <div
-        className="bg-mc-navy border border-mc-purple/30 rounded-2xl shadow-2xl w-full max-w-md relative max-h-[90vh] overflow-y-auto"
+        className="glass-panel rounded-[26px] shadow-[0_40px_100px_-30px_rgba(150,77,255,0.55)] w-full max-w-md relative max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         data-testid="availability-modal"
       >
@@ -117,14 +117,14 @@ export function AvailabilityWidget({ compact = false }: { compact?: boolean }) {
             maxLength={5}
             data-testid="zip-input"
             suppressHydrationWarning
-            className="w-full bg-black/50 border-mc-gray/40 text-white placeholder-mc-gray text-base py-6 pl-11 rounded-full focus-visible:ring-mc-purple"
+            className="w-full bg-white/[0.04] border-white/15 text-white placeholder-white/40 text-base py-6 pl-11 rounded-full focus-visible:ring-mc-purple backdrop-blur"
           />
         </div>
         <Button
           onClick={checkAvailability}
           disabled={isLoading}
           data-testid="zip-check-button"
-          className="bg-mc-purple hover:bg-mc-purple/80 text-white whitespace-nowrap text-base py-6 px-7 font-display font-bold rounded-full transition-all duration-300"
+          className="btn-shine bg-mc-purple hover:bg-mc-green hover:text-black text-white whitespace-nowrap text-base py-6 px-7 font-display font-bold rounded-full transition-colors duration-300"
         >
           {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Check Availability"}
         </Button>
